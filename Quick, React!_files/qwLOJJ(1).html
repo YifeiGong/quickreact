@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)https://cdpn.io/criesbeck/fullembedgrid/qwLOJJ?type=embed&animations=run -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+<title>CodePen - CourseSchedule Term Filtering</title>
+<link rel="stylesheet" href="./bulma.min.css">
+<style>
+    body {
+    padding: 5px
+}
+  </style>
+<script>
+  window.console = window.console || function(t) {};
+</script>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+</head>
+<body translate="no">
+<div id="container"><div class="container"><h1 class="title">CS Courses for 2018-2019</h1><div class="field has-addons"><button class="button is-success is-selected">Fall</button><button class="button">Winter</button><button class="button">Spring</button></div><div class="buttons"><button class="button">Fall CS 101: Computer Science: Concepts, Philosophy, and Connections</button><button class="button">Fall CS 110: Intro Programming for non-majors</button><button class="button">Fall CS 111: Fundamentals of Computer Programming I</button><button class="button">Fall CS 211: Fundamentals of Computer Programming II</button><button class="button">Fall CS 212: Discrete math</button><button class="button">Fall CS 213: Intro to systems</button><button class="button">Fall CS 213: Intro to systems</button><button class="button">Fall CS 214: Data structures</button><button class="button">Fall CS 217: Data management and information processing</button><button class="button">Fall CS 295: IPD</button><button class="button">Fall CS 321: Programming languages</button><button class="button">Fall CS 325: AI Programming</button><button class="button">Fall CS 330: HCI</button><button class="button">Fall CS 336: Algorithms</button><button class="button">Fall CS 338: Practicum</button><button class="button">Fall CS 339: Databases</button><button class="button">Fall CS 340: Networking</button><button class="button">Fall CS 343: Operating Systems</button><button class="button">Fall CS 348: AI</button><button class="button">Fall CS 349: ML</button><button class="button">Fall CS 354: Network Penetration and Security</button><button class="button">Fall CS 376: Game Design and Development</button><button class="button">Fall CS 393: Software Construction</button><button class="button">Fall CS 396: Swarms and Multi-Robot Systems</button><button class="button">Fall CS 396: Advanced topics in compilers</button><button class="button">Fall CS 496: Modern cryptography</button><button class="button">Fall CS 496: Approximation Algorithms</button></div></div></div>
+<script src="./stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
+<script src="./react.production.min.js"></script>
+<script src="./react-dom.production.min.js"></script>
+<script id="rendered-js">
+      const terms = { F: 'Fall', W: 'Winter', S: 'Spring' };
+
+
+const Banner = ({ title }) =>
+React.createElement("h1", { className: "title" }, title);
+
+
+const getCourseTerm = (course) =>
+terms[course.id.charAt(0)];
+
+
+const getCourseNumber = (course) =>
+course.id.slice(1, 4);
+
+
+const buttonState = (selected) =>
+selected ? `button is-success is-selected` : 'button';
+
+
+const TermSelector = ({ state }) =>
+React.createElement("div", { className: "field has-addons" },
+Object.values(terms).
+map((value) =>
+React.createElement("button", { key: value,
+  className: buttonState(value === state.term),
+  onClick: () => state.setTerm(value) },
+
+value)));
+
+
+
+
+
+
+const Course = ({ course }) =>
+React.createElement("button", { className: "button" },
+getCourseTerm(course), " CS ", getCourseNumber(course), ": ", course.title);
+
+
+
+const CourseList = ({ courses }) => {
+  const [term, setTerm] = React.useState('Fall');
+  const termCourses = courses.filter(course => term === getCourseTerm(course));
+
+  return (
+    React.createElement(React.Fragment, null,
+    React.createElement(TermSelector, { state: { term, setTerm } }),
+    React.createElement("div", { className: "buttons" },
+    termCourses.map((course) =>
+    React.createElement(Course, { key: course.id, course: course })))));
+
+
+
+};
+
+const App = () => {
+  const [schedule, setSchedule] = React.useState({ title: '', courses: [] });
+  const url = 'https://courses.cs.northwestern.edu/394/data/cs-courses.php';
+
+  React.useEffect(() => {
+
+    const fetchSchedule = async () => {
+      const response = await fetch(url);
+      if (!response.ok) throw response;
+      const json = await response.json();
+      setSchedule(json);
+    };
+
+    fetchSchedule();
+  }, []);
+
+  return (
+    React.createElement("div", { className: "container" },
+    React.createElement(Banner, { title: schedule.title }),
+    React.createElement(CourseList, { courses: schedule.courses })));
+
+
+};
+
+
+ReactDOM.render(
+React.createElement(App, null),
+document.getElementById('container'));
+      //# sourceURL=pen.js
+    </script>
+<script src="./css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js"></script>
+
+
+</body></html>

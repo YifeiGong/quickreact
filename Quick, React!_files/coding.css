@@ -1,0 +1,237 @@
+/* overrides */
+#main{clear:both;margin:0;background-color:#fff;padding:25px 40px 5px;}
+#content{width:70%;}
+h1{font-family:Verdana, Helvetica, sans-serif;;}
+h2{font-family:Verdana, Helvetica, sans-serif;}
+h3{font-family:Verdana, Helvetica, sans-serif;}
+#header h1 a{color:#eee;font-family:Verdana, Helvetica, sans-serif;font-size:2em;font-weight:400;text-decoration:none;}
+#header h2{color:#ddd;padding:0 0 10px 25px;margin:0;font-family:Verdana, Helvetica, sans-serif;font-size:1.8em;font-weight:400;}
+
+#credits { background-color: darkgray; color: white; }
+#credits a {color: blanchedalmond; }
+
+h2 { margin-top: 3em; }
+
+/* Links and paragraphs */
+a {background:inherit; color:#166090; text-decoration:none; font-weight:400;}
+a:hover {background:inherit; color:#286ea0; text-decoration:underline;}
+a img {border:0;}
+p {margin:0 0 16px }
+blockquote {background:url(../images/menubg.gif) repeat-x bottom left #f4f4f4; border-bottom:1px solid #d8d8d8; border-left:4px solid #ccc; border-right:1px solid #d8d8d8; border-top:1px solid #d8d8d8; color:#505050; margin:16px; padding:7px 7px 7px 11px;}
+blockquote p {font-size:1.1em; line-height:1.3em; margin:0;}
+
+code, tt {font-family:courier;}
+
+/* additions */
+
+#header {position:relative;}
+#header h1.header-text {color: white; text-shadow: 5px 5px #32526e; font-size:2.5em; line-height: 1.1;}
+#header h2.header-text {color: white; font-family: Schoolbell, Chalkduster; }
+
+#header #avatar { height: 10em; position:absolute; bottom:0; right:5%;}
+
+/* Additional classes */
+.announce h2 {margin:0 0 10px; padding:0;}
+
+#project-schedule {
+ border: 2px ridge grey;
+ border-collapse: collapse;
+}
+
+#content div.tip {
+  border: 2px ridge lightgrey;
+  margin: 0 5%;
+  padding: 3px;
+}
+
+#content div.tip p:last-child, #content div.tip ul:last-child, #content div.tip ol:last-child {
+  margin-bottom: 0;
+}
+
+#content div.tip p:first-child {
+  font-weight: bold;
+}
+
+.notice {background-color: #f6f6f6; color: black; margin: 0 5% 1em 5%; padding:5px;}
+#content h1.notice, #content  h2.notice, #content  h3.notice {background-color: #5c5c5c; color: white; padding: 2px;}
+
+pre {
+  background-color: #e0e0e0;
+  border-color: lightblue; 
+  border-width: 0 0 0 0.5em; 
+  border-style: solid; 
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 16px; 
+  overflow: auto;
+  padding: 5px; 
+}
+
+pre .new-code {
+  background-color: lightgreen;
+}
+
+ul#filelist {padding: 0; margin: 0;}
+ul#filelist li {list-style-type: none;
+  border: 1px solid silver; border-width: 1px 1px 0 3px;
+  position: relative; margin: 0; padding: 0;}
+ul#filelist ul {display: none;}
+ul#filelist li a:hover > ul {display: block;}
+ul#filelist li a {display: block; padding: 5px 7px; text-decoration: none;
+  background: #FFF;}
+  
+ul.headed-lists > li::first-line {
+  font-weight: bolder;
+}
+
+ul.checklist {
+  list-style-image: url("../images/icon-checkbox-square.png");
+}
+
+.hidden {display: none}
+
+span.parameter {
+  font-style: italic;
+  text-decoration: underline;
+}
+
+table.due-dates {
+  font-size: 100%;
+}
+
+table.doc-details {
+  border: 2px solid lightgrey;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+table.doc-details th, table.doc-details td {
+  border: 2px solid lightgrey;
+  border-collapse: collapse;
+  padding: 2px;
+}
+
+table.doc-details tbody th {
+  text-align: right;
+}
+
+table th.left-col-header { text-align: right; }
+
+table.advice-data th{
+  vertical-align: top;
+}
+
+.critique {
+  font-style: italic;
+  font-weight: bold;
+}
+
+form {
+  border-bottom: 2px solid grey;
+  border-top: 2px solid grey;
+  padding: 10px 0;
+}
+
+.template-output {
+  background-color: white;
+  border: 3px outset grey;
+  display: none;
+  padding: 3px;
+  position: fixed;
+  left: 250px;
+  top: 150px;
+}
+
+.template-output .controls {
+  text-align: center;
+}
+
+table.spreadsheet {
+  border: 1px solid #5F6F7E;
+  border-collapse: collapse;
+  margin: 1em 0 2em 0;
+}
+
+table.spreadsheet th {
+  border: 1px solid #5F6F7E;
+  background-color: #E2E2E2;
+  color: #000000;
+  text-align: left;
+  font-weight: bold;
+  padding: 0.2em 0.4em 0.2em 0.4em;
+  margin: 0;
+}
+
+table.spreadsheet tbody th {
+  text-align: right;
+}
+
+table.spreadsheet td {
+  margin: 0;
+  padding: 2px;
+  border: 1px solid black;
+  width: 20em;
+}
+
+.file-source .file-name { font-weight: bold; }
+
+.github-step {
+  margin: 1em 1em;
+  border-left: 3px solid grey;
+  padding-left: 1em;
+}
+
+.step {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
+#content .step:before {
+  content:'\2611\0020';
+}
+
+#content a[name]::after { 
+  font-family: FontAwesome;
+  content: "  \f0c1";
+  visibility: hidden;
+}
+
+#content a[name]:hover::after {
+  text-decoration:none;
+  visibility: visible;
+}
+
+.bad-code {
+  color: red;
+  border-color: red;
+  font-weight: 500;
+}
+
+.soso-code {
+  color: #E77C03;
+  border-color: darkorange;
+  font-weight: 500;
+}
+
+.note-callout {
+  background-color: #e3eaa7;
+  border-left: 0.5em solid #86af49;
+  margin: 1em 5%;
+  padding: 0.5em 1em;
+}
+
+.gist {
+  max-width: 60em;
+  overflow: auto;
+}
+
+.gist .blob-wrapper.data {
+  max-height: 12em;
+  overflow: auto;
+}
+
+#toc li li {
+  list-style: circle inside;
+  margin: 5px;
+}

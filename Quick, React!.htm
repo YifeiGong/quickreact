@@ -1,0 +1,3190 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)https://courses.cs.northwestern.edu/394/intro-react.php#modules -->
+<html class="gr__courses_cs_northwestern_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="description" content="Riesbeck Software Development notes">
+  <meta name="keywords" content="agile software development javacript">
+  <meta name="author" content="Chris Riesbeck">
+	<link href="./Quick, React!_files/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="./Quick, React!_files/css">  
+  <link rel="stylesheet" type="text/css" href="./Quick, React!_files/variant-multi.css" media="screen,projection">
+  <link rel="stylesheet" type="text/css" href="./Quick, React!_files/coding.css" media="screen,projection">
+  <script type="text/javascript" src="./Quick, React!_files/scripts.js"></script>
+  <title>Quick, React!</title>
+</head>
+
+<body data-gr-c-s-loaded="true">
+<div id="containerfull">
+	<div id="header">
+    <img id="avatar" src="./Quick, React!_files/peabody.png" title="Mr. Peabody © Universal Pictures" alt="Mr. Peabody © Universal Pictures">
+    <h1 class="header-text">Quick, React!</h1>
+    <h2 class="header-text">A follow-along React example</h2>
+	</div>
+
+<!--
+  <div id="menu"> 
+    <ul>
+      <li><a class="" href="index.php">Home</a></li>
+      <li><a class="" href="schedule.php">Schedule</a></li>
+      <li><a class="" href="topics.php">Topics</a></li>
+    </ul>
+  </div>
+-->
+
+  <div id="main">
+	
+<div id="sidebar">
+  <div class="sidebarbox">
+
+    <div id="toc"><h2>Contents</h2><ul><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#slice0">Setting up</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#slice1">Slice 1: Our first React code</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#slice2">Slice 2: Showing a list of courses</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#slice3">Slice 3: Styling our app</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#slice4">Slice 4: Fetching data</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#slice5">Slice 5: Interactive filtering</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#firebase">Slice 6: Reading and writing data with Firebase</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#authentication">Slice 7: Authentication with Firebase</a></li><li><a href="https://courses.cs.northwestern.edu/394/intro-react.php#modules">Slice 8: Modularization</a></li></ul></div>
+
+    <h2>Resources</h2>
+    <ul>
+      <li><a href="https://courses.cs.northwestern.edu/394/overviews.php">Guides and links</a></li>
+    </ul>
+  </div>
+</div>
+  
+
+
+<div id="content">
+
+<p>EcmaScript 2015 (and later), React 16.8 (and up), and
+  modern programming style, is the key to 
+  implementing powerful prototype applications
+  with simple clean code. 
+</p>
+
+<p>
+  This tutorial demonstrates simple ways
+  to get going with React. It covers most of the features
+  modern prototype apps need, including databases and authentication,
+  using only functions, JSX, and a few libraries for CSS and Firebase.
+  No JavaScript classes, lifecycle methods, state manager,
+  or higher-order components.
+</p>
+
+<p class="note-callout">If you have not looked at React before, see
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#basic-concepts" target="_blank">
+  this short list of basic concepts</a>.
+</p>
+
+<h3 id="slice0"><a name="slice0" href="https://courses.cs.northwestern.edu/394/intro-react.php#slice0">Setting up</a></h3>
+
+<h4>Install a React-savvy editor</h4>
+
+<p>
+  An editor that knows about React code can save hours of time.
+  I use <a href="https://code.visualstudio.com/download" target="_blank">
+    Visual Studio Code</a>
+   -- note: not Visual Studio! It runs on MacOS, Windows, and Linux. That's
+   handy for teams with different development machines.
+</p> 
+   
+<p>An up to date list of good choices
+   is <a href="https://www.dunebook.com/best-react-ide-react-editors/" target="_blank">here</a>.
+</p>
+
+<h4>Install Node</h4>
+
+<p>Install <a href="https://nodejs.org/en/" target="_blank">NodeJS</a>. 
+  This is the most tedious step,
+  but doesn't require much thinking. If you have NodeJS installed,
+  be sure it's the latest LTS (long-term support) version, i.e., at least version 10.
+</p>
+
+<h4>Use create-react-app</h4>
+
+<p>Start new applications with this command:</p>
+
+<pre>npx create-react-app <em>new-app-name</em></pre>
+
+<p>
+  The
+  <a href="https://facebook.github.io/create-react-app/" target="_blank">
+  create-react-app</a> tool  makes
+  starting a new React app a one-step process.
+  It creates a new directory, with a default set of React files,
+  including a <strong>.gitignore</strong> file that will avoid accidentally
+  storing 1000s of Node libraries on github. It also installs npm
+  scripts for running a local server, testing, and creating a deployable
+  production build.
+</p>
+
+<p>For this demonstration, we're making a class conflict detector.</p>
+
+<pre>npx create-react-app scheduler</pre>
+
+<p>Test to make sure everything installs and runs.</p>
+
+<pre>cd scheduler
+npm install</pre>
+
+<p>The install downloads a ton of files. If you get warnings about 
+  a library that 
+  <code>requires a peer of typescript@* but none is installed</code>, do this:
+</p>
+
+<pre>npm install typescript --save-dev</pre>
+
+<p>Note the last part is "dash dash save dash dev".</p>
+
+<p>Now do</p>
+
+<pre>npm run start</pre>
+
+<p>This starts a local web server and launches your browser on a home
+  page <strong>create-react-app</strong> created. 
+  After 10 to 20 seconds, a web page should appear with the animated
+  React logo. You can leave this page open and the server running. As
+  you edit and save files, React will rebuild and reload
+  the local web site. If you make a mistake, you'll see error messages
+  in the terminal console, the browser, and/or 
+  <a href="https://javascript.info/devtools" target="_blank">
+  the browser's developer console.</a>
+</p>
+
+<!--
+  <blockquote>https://gist.github.com/paulallies/0052fab554b14bbfa3ef 
+  if you forget .gitignore
+  </blockquote>
+  -->
+
+<h4>[Optional] Set up a remote repo and site</h4>
+
+<p>Create a remote repo for your app on Github, Bitbucket, Gitlab, or wherever,
+  do a local <strong>git init</strong>, and so on.
+</p>
+
+<p>Set up a remote web site for testing, showing to users, etc. 
+  I like Firebase, but you can use AWS, Heroku, or whatever you are familiar with.
+</p>
+
+<h4>Know your files</h4>
+
+<p><strong>create-react-app</strong> creates a short <strong>public/index.html</strong>
+  file. There is almost no code in that file. 
+  You rarely need to edit it, except to change the page title.
+</p>
+
+<p>Let's change the web page title that shows
+ up on the browser tab and the browser history. Replace this line
+in <strong>public/index.html</strong></p>
+
+<pre>&lt;title&gt;React App&lt;/title&gt;</pre>
+
+<p>with this</p>
+
+<pre>&lt;title&gt;CS Course Scheduler&lt;/title&gt;</pre>
+
+<p>This new title will show up as soon as we save.
+</p>
+
+<p>The HTML file gets its content by loading <strong>src/index.js</strong>. 
+  This JavaScript
+  file has almost no code as well. The most important line is this one
+  near the end:
+</p>
+
+<pre>ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</pre>
+
+<p>You rarely need to edit this file either, except to import additional 
+  JavaScript libraries,
+  or modify what data is passed to <strong>App</strong>.
+</p>
+
+<h3 id="slice1"><a name="slice1" href="https://courses.cs.northwestern.edu/394/intro-react.php#slice1">Slice 1: Our first React code</a></h3>
+
+<p>
+  The file <strong>src/App.js</strong> is the heart of your application.
+  Unless specified otherwise, all our editing below will be in that
+  file.
+</p>
+
+<p>We're going to write a simple React app for quickly finding classes that
+  don't conflict in meeting time. We'll do this in tiny slices 
+  that make something
+  new happen on-screen in every step.
+</p>
+
+<p>We need some data. Just to get things started, we'll make
+  a data object with a title, and write
+  just enough code to print the title.
+</p>
+
+<p>
+  Replace the entire 
+  contents of the <strong>src/App.js</strong> file that 
+  <strong>create-react-app</strong> made with the following text.
+</p>
+
+<pre>import React from 'react';
+
+const schedule = {
+  title: "CS Courses for 2018-2019"
+};
+
+const App = () =&gt;  (
+  &lt;div&gt;
+    &lt;h1&gt;{ schedule.title }&lt;/h1&gt;
+  &lt;/div&gt;
+);
+
+export default App;</pre>
+
+<p>If the local server is still running, saving this file should
+  change the page to show the title "CS Courses for 2018-2019".
+</p>
+
+<p>The first line of the code makes React available to our JavaScript.
+  The last line makes the function <strong>App</strong> available
+  to any script that imports this file, such as this line at the top
+  of <strong>src/index.js</strong>.
+</p>
+
+<pre>import App from './App';</pre>
+
+<p>There is nothing special about the name <strong>App</strong>. It
+  is just the name that <strong>create-react-app</strong> uses by default.
+</p>
+
+<p>The rest of our code in <strong>src/App.js</strong>
+  defines a variable <strong>schedule</strong> with our data,
+  and the function <strong>App</strong>. The function
+  just returns some HTML that displays the title in the data.
+</p>
+
+<p><strong>App</strong> is defined using JavaScript's modern
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank">
+  arrow function expresssion syntax</a>.
+</p>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/js-tips.php#arrow" target="_blank">More on arrow syntax</a>.
+</p>
+
+<p>
+  The function uses React's JSX feature. JSX lets us
+  write HTML directly, inserting JavaScript values as needed
+  inside curly braces.
+</p>
+
+<pre>&lt;div&gt;
+  &lt;h1&gt;{ schedule.title }&lt;/h1&gt;
+&lt;/div&gt;</pre>
+
+<p>
+  Scripts installed by <strong>create-react-app</strong>  
+  translate the JSX into regular JavaScript code to build
+  the actual HTML.
+</p>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#jsx" target="_blank">More on JSX syntax</a>.
+</p>
+
+<p>The function <strong>App</strong> gets called by 
+  this line of code in <strong>index.js</strong>:
+</p>
+
+<pre>ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</pre>
+
+<p>
+  <strong>&lt;</strong><em>component</em><strong> /&gt;</strong>
+  is HTML shorthand for
+  <strong>&lt;</strong><em>component</em><strong>&gt;&lt;/</strong><em>component</em><strong>&gt;</strong>. All 
+  JSX components must be closed one way or the other.
+</p>
+
+<p>We've finished our first slice. We've have a working skeleton of our app!</p>
+
+<h4>CodePen</h4>
+
+<p>To see the output, click on the <strong>Result</strong> button
+  in the CodePen below. To play with the code, 
+  click on the icon in the upper right of the
+  CodePen.
+</p>
+
+<div class="cp_embed_wrapper"><iframe name="cp_embed_1" src="./Quick, React!_files/aroMBK.html" scrolling="no" frameborder="0" height="265" allowtransparency="true" allowfullscreen="true" allowpaymentrequest="true" title="CourseSchedule Title" class="cp_embed_iframe " style="width: 100%; overflow:hidden; display:block;" id="cp_embed_aroMBK"></iframe></div>
+
+<script async="" src="./Quick, React!_files/ei.js"></script>
+
+<h3 id="slice2"><a name="slice2" href="https://courses.cs.northwestern.edu/394/intro-react.php#slice2">Slice 2: Showing a list of courses</a></h3>
+
+<p>Of course, what we really want to display are the courses.
+  That will need a loop. We could write it in <strong>App</strong>, but 
+  it would better to refactor <strong>App</strong> into two
+  new components, passing each one just the data
+  it needs:
+</p>
+
+<ul>
+  <li>A banner with the title</li>
+  <li>A list with the courses</li>
+</ul>
+
+<p>Components are things we can invent as we need them, to organize
+  our React code.
+</p>
+
+<p>Let's add some courses to our data object, and add components for
+  the banner and course list to our <strong>App</strong> function:
+</p>
+
+<pre id="sample-json">import React from 'react';
+
+const schedule = {
+  "title": "CS Courses for 2018-2019",
+  "courses": [
+    {
+      "id": "F101",
+      "title": "Computer Science: Concepts, Philosophy, and Connections",
+      "meets": "MWF 11:00-11:50"
+    },
+    {
+      "id": "F110",
+      "title": "Intro Programming for non-majors",
+      "meets": "MWF 10:00-10:50"
+    },
+    {
+      "id": "F111",
+      "title": "Fundamentals of Computer Programming I",
+      "meets": "MWF 13:00-13:50"
+    },
+    {
+      "id": "F211",
+      "title": "Fundamentals of Computer Programming II",
+      "meets": "TuTh 12:30-13:50"
+    }
+  ]
+};
+
+const App = () =&gt;  (
+  &lt;div&gt;
+    &lt;Banner title={ schedule.title } /&gt;
+    &lt;CourseList courses={ schedule.courses } /&gt;
+  &lt;/div&gt;
+);
+
+export default App;</pre>
+
+<p>Our new <strong>App</strong> creates two component:
+  <strong>Banner</strong> and <strong>CourseList</strong>. It passes the
+  title to the banner and the list of
+  courses to the course list, using HTML attributes.
+</p>
+
+<blockquote>Component names must be capitalized,
+  so React can tell them apart from normal HTML
+  such as <strong>div</strong> and <strong>span</strong>.
+</blockquote>
+
+<p>
+  Component are just functions you define to return JSX.
+  When React sees a component in JSX, it calls the function with
+  the same name. Whatever the function returns replaces
+  the component in the JSX that called it.
+</p>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#functional-components" target="_blank">More on functional components</a>.
+</p>
+
+<p>React collects any attributes attached to a component
+  into a <em>props</em> object, 
+  and passes that object to the function.
+  The keys of the object are the attributes in the component call, and the values are the 
+  attribute values. So
+</p>
+
+<pre>&lt;Banner title={ schedule.title } /&gt;</pre>
+  
+<p>
+  means the function <strong>Banner</strong> will
+  be passed the props object <code>{ "title": "CS Courses for 2018-2019" }</code>.
+</p>
+
+<blockquote>Do not use the attribute <strong>children</strong>.
+  <a href="https://reactjs.org/docs/jsx-in-depth.html#functions-as-children" target="_blank"><strong>props.children</strong> has a special purpose in React.</a>
+</blockquote>
+
+<p>We could define <strong>Banner</strong> like this:
+</p>
+
+<pre>const Banner = props =&gt; (
+  &lt;h1&gt;{props.title}&lt;/h1&gt;
+)</pre>
+
+<p>But modern JavaScript lets you 
+  use <em>destructuring</em> syntax to get the values you want from 
+  an object. It not only makes some functions a little shorter, 
+  it makes the parameter list clearer about what the function expects
+  to receive.
+</p>
+
+<pre>const Banner = ({ title }) =&gt; (
+  &lt;h1&gt;{ title }&lt;/h1&gt;
+);</pre>
+
+<p>If you forget the curly braces in the parameter list and write
+  
+  </p><pre class="bad-code">const Banner = (title) =&gt;  (
+  &lt;h1&gt;{ title }&lt;/h1&gt;
+);</pre>
+
+  you will get the  error "Objects are not valid as a React child" when
+  you load the page.
+<p></p> 
+
+<p>The <strong>CourseList</strong> component will need to loop
+  over the list of courses, producing HTML for each one. 
+  In modern JavaScript, looping is best done using
+  <a href="https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d" target="_blank">mapping functions</a>, 
+  such as <strong>map</strong>
+  and <strong>filter</strong>.
+</p>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/js-tips.php#mapping" target="_blank">More on mapping methods.</a>.
+</p>
+
+<p>The course list
+  component should just map over the courses and return a course component
+  for each one. React lets us
+  nest lists of components inside JSX, so our code 
+  can look like this:
+</p>
+
+<pre>const CourseList = ({ courses }) =&gt; (
+  &lt;div&gt;
+    { courses.map(course =&gt; &lt;Course course={ course } /&gt;) }
+  &lt;/div&gt;
+);</pre>
+
+<p>Our courses will be buttons so the user can select and de-select
+  them. We have to do a little work to get user-friendly button text. 
+  Instead of just the title, we'd like to show the term and course number.
+  We can get this from the ID. For example, "F101" is in the fall term,
+  and its course number is 101. We define 
+  utility functions to get the term and number
+  from the ID, leading to this code
+  for <strong>Course</strong>:
+  </p>
+
+<pre id="terms">const terms = { F: 'Fall', W: 'Winter', S: 'Spring'};
+
+const getCourseTerm = course =&gt; (
+  terms[course.id.charAt(0)]
+);
+
+const getCourseNumber = course =&gt; (
+  course.id.slice(1, 4)
+)
+  
+const Course = ({ course }) =&gt; (
+  &lt;button&gt;
+    { getCourseTerm(course) } CS { getCourseNumber(course) }: { course.title }
+  &lt;/button&gt;
+);</pre>
+
+<p>The above will work fine. It produces the heading and a list
+  of the sample courses. But you will see a warning from React
+  on the console about
+  elements in a list without keys. 
+  <a href="https://coderwall.com/p/jdybeq/the-importance-of-component-keys-in-react-js" target="_blank">The reason is a bit technical</a>
+  but the fix is to add a <strong>key</strong> attribute
+  with a unique, unchanging ID. That's easy in this case.
+</p>
+
+<pre>const CourseList = ({ courses }) =&gt; (
+  &lt;div&gt;
+    { courses.map(course =&gt; &lt;Course key={course.id} course={ course } /&gt;) }
+  &lt;/div&gt;
+);</pre>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#list-keys" target="_blank">More on list keys</a>.
+</p>
+
+<p>We've finished our second slice! We have a working app that takes data
+  about a list of courses and displays them on a web page.
+</p>
+
+<h4>CodePen</h4>
+
+<div class="cp_embed_wrapper"><iframe name="cp_embed_2" src="./Quick, React!_files/eojMvQ.html" scrolling="no" frameborder="0" height="265" allowtransparency="true" allowfullscreen="true" allowpaymentrequest="true" title="TeamList" class="cp_embed_iframe " style="width: 100%; overflow:hidden; display:block;" id="cp_embed_eojMvQ"></iframe></div>
+<script async="" src="./Quick, React!_files/ei.js"></script>
+
+<h3 id="slice3"><a name="slice3" href="https://courses.cs.northwestern.edu/394/intro-react.php#slice3">Slice 3: Styling our app</a></h3>
+
+<p>There are two ways to style React apps.</p>
+
+<ul>
+  <li>Use CSS classes from a CSS library like Bootstrap, Bulma, or MaterialUI</li>
+  <li>Use a library that defines styled React components</li>
+</ul>
+
+<p>
+  The second approach is usually faster and simpler. Here we'll use
+  <a href="https://dfee.github.io/rbx/" target="_blank">
+  rbx</a>. It's not very well known, but it's very simple to use, 
+  with clean documentation and clean code.
+</p>
+
+<p>More popular but more complex React style libraries include
+  <a href="https://material-ui.com/" target="_blank">Material-UI</a>,
+  <a href="https://react.semantic-ui.com/" target="_blank">Semantic UI React</a>
+  (based on but different from
+  <a href="https://semantic-ui.com/" target="_blank">Semantic UI</a>),
+  <a href="https://react-bootstrap.github.io/" target="_blank">React BootStrap</a>,
+  and <a href="https://reactstrap.github.io/" target="_blank">ReactStrap</a>.
+  For a measure of usage, see 
+  <a href="https://www.npmtrends.com/react-bootstrap-vs-reactstrap-vs-@material-ui/core-vs-semantic-ui-react" target="_blank">
+    this chart
+  </a>
+  showing the number of downloads from Github for each package.
+</p>
+
+<p>To install <strong>rbx</strong> in your project:</p>
+
+<pre>npm install rbx</pre>
+
+<p>Then, in any React file that needs styling, import the core CSS file,
+  and the specific styled components that you need. E.g., if you need
+  the container, title, and button components for your code:
+</p>
+
+<pre>import 'rbx/index.css';
+import { Button, Container, Title } from 'rbx';</pre>
+
+<p class="note-callout"><a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#import-assets" target="_blank">
+  More on importing CSS and images.</a></p>
+
+<p>Then use the appropriate <strong>rbx</strong> components.
+  The <a href="https://dfee.github.io/rbx/" target="_blank">
+  documentation</a> lists everything with example HTML and output.
+</p>
+
+<p>
+  One of the advantages of styled components for prototyping is that 
+  a React-savvy editor will quickly tell you if you
+  fail to import a component your code needs, or are importing
+  a component that's not being used.
+</p>
+
+<p>A simple place to start is our banner. It's just a title, so
+  the styled version is pretty obvious:
+</p>
+
+<pre>const Banner = ({ title }) =&gt; (
+  &lt;Title&gt;{ title }&lt;/Title&gt;
+);</pre>
+
+<p>Our courses are buttons and there's a nice <strong>rbx</strong> button 
+  component.
+</p>
+  
+<pre>const Course = ({ course }) =&gt; (
+  &lt;Button&gt;
+    { getCourseTerm(course) } CS { getCourseNumber(course) }: { course.title }
+  &lt;/Button&gt;
+);</pre>
+
+<p>Our course list is a group of buttons. Groups of buttons are
+  pretty common so most libraries have a component for that.
+  Some require you to import a separate <strong>ButtonGroup</strong>
+  component, but <strong>rbx</strong> uses
+  <strong>Button.Group</strong>. 
+  You get it automatically when you import <strong>Button</strong>
+  with <strong>rbx</strong>.
+</p>
+
+<pre>const CourseList = ({ courses }) =&gt; (
+  &lt;Button.Group&gt;
+    {courses.map(course =&gt; &lt;Course key={course.id} course={ course } /&gt;)}
+  &lt;/Button.Group&gt;
+);</pre>
+
+<p>Finally, our app just holds the banner and course list.
+  <strong>rbx</strong> has a general container component for that
+  purpose.
+</p>
+
+<pre>const App = () =&gt;  (
+  &lt;Container&gt;
+    &lt;Banner title={ schedule.title } /&gt;
+    &lt;CourseList courses={ schedule.courses } /&gt;
+  &lt;/Container&gt;
+);</pre>
+
+<p>We've finished our third slice!</p>
+
+<h4>CodePen</h4>
+
+<p>Note: I couldn't find a way to load <strong>rbx</strong> into CodePen,
+  so the CodePen version uses the Bulma CSS classes directly, to get
+  the same output.
+</p>
+
+<div class="cp_embed_wrapper"><iframe name="cp_embed_3" src="./Quick, React!_files/OGwajm.html" scrolling="no" frameborder="0" height="265" allowtransparency="true" allowfullscreen="true" allowpaymentrequest="true" title="TeamList Styled" class="cp_embed_iframe " style="width: 100%; overflow:hidden; display:block;" id="cp_embed_OGwajm"></iframe></div>
+<script async="" src="./Quick, React!_files/ei.js"></script>
+
+<h3 id="slice4"><a name="slice4" href="https://courses.cs.northwestern.edu/394/intro-react.php#slice4">Slice 4: Fetching data</a></h3>
+
+<h4 id="state"><a name="state" href="https://courses.cs.northwestern.edu/394/intro-react.php#state">Creating trackable state</a></h4>
+
+<p>Most applications get their data from a server. Let's do that.
+  The data we're going to fetch is
+  <a href="https://courses.cs.northwestern.edu/394/data/cs-courses.php" target="_blank">this JSON</a>.
+</p>
+
+<p>
+  We're going to need to store that data locally in some
+  <em>trackable state variable</em>, so that 
+  React can tell when it changes and the page should be updated.
+  This is the "react" part of React. You don't need to write
+  any code to update your page. You just update your data.
+  React does the rest, efficiently and robustly.
+</p>
+
+<p>
+  Global variables lead to hard to maintain code, so 
+  React makes it possible to store state in components.
+  If just one part of your code needs to have 
+  a list of selected items, that list can be stored
+  in trackable state in the component that needs
+  that list.
+</p>
+
+<p>
+  In React 16.8 and up, you create trackable state
+  in a component with <strong>useState()</strong>. To use
+  <strong>useState</strong>, you need to import it at the
+  top of your <strong>App.js</strong> file.
+</p>
+
+<pre>import React, { useState } from 'react';</pre>
+
+<p>
+  <strong>useState()</strong> is called a 
+  <strong>Hook</strong>, because it hooks into
+  the internals of the React system. How it works
+  is complicated, but using it is not.
+</p>
+
+<p>You call <strong>useState(<em>value</em>)</strong>
+  inside a component to create a local state variable
+  for that component. <strong>useState(<em>value</em>)</strong>
+  takes an initial value,
+  and returns a two-element array with the initial value
+  and a function. The function will be a setter to use to update the state. 
+  Here's an example.
+</p>
+
+<pre>const Scoreboard = () =&gt; {
+  const [score, setScore] = useState(0);
+  ...</pre>
+
+<p> This uses 
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment" target="_blank">array destructuring</a>
+  to initialize <strong>score</strong> to 0
+  and set <strong>setScore</strong> to the update
+  function. Any
+  changes to <strong>score</strong> should be done by calling
+  <strong>setScore(<em>new-value</em>)</strong>. When that happens,
+  React will re-render any components that depend on
+  <strong>score</strong>.
+</p>
+
+<p>
+  The initial value should be something that works with your component
+  code. Zero or null or an empty string is fine if your component JSX
+  can handle that.
+
+</p><p>In our application, our components want a course schedule object,
+  so our initial value should be an object with an empty
+  title and empty list of courses.
+</p>
+
+<pre>const App = () =&gt; {
+  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+  ...
+};</pre>
+
+<p>The body of the <strong>App</strong> arrow function 
+  has become a statement block, with curly braces,
+  because we need more than a single expression.
+</p>
+
+<p>To show the user that there is no data yet, we modify our
+  banner component slightly, to show "[loading...]" until such
+  time as data has been received.
+</p>
+
+<pre>const Banner = ({ title }) =&gt; (
+  &lt;Title&gt;{ title || '[loading...]' }&lt;/Title&gt;
+);</pre>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#use-state" target="_blank">More on useState()</a>.
+</p>
+
+<h4 id="fetching-data"><a name="fetching-data" href="https://courses.cs.northwestern.edu/394/intro-react.php#fetching-data">Getting data for components</a></h4>
+
+<p>Now that we have a <strong>schedule</strong> state variable,
+  we need to fetch some data to put into it. I have put 
+  <a href="https://courses.cs.northwestern.edu/394/data/cs-courses.php" target="_blank">our data</a>
+  at the URL
+</p>
+  
+<pre>'https://www.cs.northwestern.edu/academics/courses/394/data/cs-courses.php'</pre>
+
+<p>
+  This URL can be fetched from any server, including your local
+  test server, without getting
+  <a href="https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api#cross-origin_requests" target="_blank">
+  a CORS exception</a>.
+</p>
+
+<p>If you want to serve the file locally, download the JSON, put it in the file
+  <strong>public/data/cs-courses.json</strong> in
+  your app directory. Then you
+  can fetch it with the URL <tt>'/data/cs-courses.json'</tt>.
+</p>
+
+<p>
+  Fetching data is typically done
+  by calling an <em>asynchronous</em> function. Asynchronous
+  functions internally are passed three functions.
+  An asynchronous function will call the first function
+  and return immedately, so that the application
+  can go back to responding to other events. 
+  The second function, called the <em>success callback</em>,
+   will be called with the value returned by the first function,
+  unless there is an error, in which case the third function, called
+  the <em>failure callback</em> is called.
+</p>
+
+<p>Modern JavaScript
+  has a special <strong>await</strong> keyword that can be used to
+  write asynchronous code more readably, without writing explicit function
+  wrappers. <strong>await</strong> can be
+  inside any
+  function marked with the <strong>async</strong> keyword. Such
+  a function itself becomes an asynchronous function.
+</p>
+
+<p>The standard function to get data over the web is
+  <strong>fetch()</strong>. This is an asynchronous function
+  because it might take many seconds to get the response.
+  When the response is received, it can be checked to see if
+  it has data or a server message. If it has data, e.g., JSON,
+  it can be parsed with another asynchronous function, 
+  <strong>response.json()</strong>.
+</p>
+
+<p>Here's how those two asynchronous functions could be called
+  using <strong>async</strong> and <strong>await</strong>, to
+  get our schedule JSON and store it with the 
+  <strong>setSchedule()</strong> function created by
+  <strong>useState()</strong>:
+</p>
+
+<pre>const fetchSchedule = async () =&gt; {
+  const response = await fetch(url);
+  if (!response.ok) throw response;
+  const json = await response.json();
+  setSchedule(json);
+};</pre>
+
+<p>When a browser executing an <strong>async</strong> function
+  gets to an <strong>await</strong> call, the browser
+  does the call but puts the rest of the function code into
+  a implicit success callback. When the asynchronous call returns a value, 
+  the browser calls the success callback.
+</p>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#async" target="_blank">
+    More about asynchronous code</a>.
+</p>
+
+<p>The trick is to integrate this asynchronous event processing
+  into the
+  React rendering cycle. We want to fetch data only
+  when a component that needs it is added to a page, but
+  not every time it is re-rendered.
+</p>
+
+<p>
+  In React, you call 
+  <strong>useEffect(<em>function</em>)</strong> inside a component
+  to tell React
+  to call <em>function</em> whenever that component is added
+  to the page or updated. <strong>useEffect()</strong> is another
+  Hook function.
+</p>
+
+<p>To use
+  <strong>useEffect</strong>, import it at the
+  top of your <strong>App.js</strong> file.
+</p>
+
+<pre>import React, { useState, useEffect } from 'react';</pre>
+
+
+<p>We can define and call <strong>fetchSchedule()</strong>
+  inside <strong>useEffect()</strong> like this:
+</p>
+
+<pre class="bad-code">useEffect(() =&gt; {
+  const fetchSchedule = async () =&gt; {
+    const response = await fetch(url);
+    if (!response.ok) throw response;
+    const json = await response.json();
+    setSchedule(json);
+  }
+  fetchSchedule();
+})</pre>
+
+<p>This works but has a serious flaw. By default, the function passed to
+  <strong>useEffect()</strong> is called whenever
+  the component is added <em>or updated</em>. React apps can update
+  the page very frequently, sometimes on every keystroke.
+  We don't want to do a fetch everytime the component is updated.
+  That could get our app kicked off a network service
+  for violating service limits!
+</p>
+
+<p>You can tell <strong>useEffect()</strong> to
+  run the function only on updates where specific state variables
+  have changed. You pass an array of those variables
+  as the second argument. If the list is empty,
+  then the <strong>useEffect()</strong> function will
+  only be called when the component is added. 
+  Omitting the second argument tells React to run
+  the function on all updates.
+</p>
+
+<pre>useEffect(() =&gt; {
+  const fetchSchedule = async () =&gt; {
+    const response = await fetch(url);
+    if (!response.ok) throw response;
+    const json = await response.json();
+    setSchedule(json);
+  }
+  fetchSchedule();
+}, [])</pre>
+
+<p id="use-effect-fetch">Putting this all together leads to this code
+  to load the course schedule into our <strong>App</strong>.
+</p>
+
+<pre>const App = () =&gt; {
+  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+  const url = 'https://www.cs.northwestern.edu/academics/courses/394/data/cs-courses.php';
+
+  useEffect(() =&gt; {
+    const fetchSchedule = async () =&gt; {
+      const response = await fetch(url);
+      if (!response.ok) throw response;
+      const json = await response.json();
+      setSchedule(json);
+    }
+    fetchSchedule();
+  }, [])
+
+  return (
+    &lt;Container&gt;
+      &lt;Banner title={ schedule.title } /&gt;
+      &lt;CourseList courses={ schedule.courses } /&gt;
+    &lt;/Container&gt;
+  );
+};</pre>
+
+<blockquote>The code for fetching data from 
+  the Firebase Realtime Database is slightly different. See
+  <a href="https://courses.cs.northwestern.edu/394/intro-react.php#firebase">the section on
+  using Firebase with Hooks</a>.
+</blockquote>
+
+<p class="note-callout">More on 
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#useeffect-dependencies" target="tutorial-notes">
+  <strong>useEffect()</strong>
+  with databases.</a>
+</p>
+
+<p>That's it. We can delete the code that created the sample schedule.
+  We've finished our fourth slice!
+</p>
+
+<h4>CodePen</h4>
+
+<div class="cp_embed_wrapper"><iframe name="cp_embed_4" src="./Quick, React!_files/WWLvwa.html" scrolling="no" frameborder="0" height="265" allowtransparency="true" allowfullscreen="true" allowpaymentrequest="true" title="CourseSchedule Fetch" class="cp_embed_iframe " style="width: 100%; overflow:hidden; display:block;" id="cp_embed_WWLvwa"></iframe></div>
+<script async="" src="./Quick, React!_files/ei.js"></script>
+
+<h3 id="slice5"><a name="slice5" href="https://courses.cs.northwestern.edu/394/intro-react.php#slice5">Slice 5: Interactive filtering</a></h3>
+
+<p>Time to start implementing our course scheduling tool.
+</p>
+
+<h4>Filtering by term</h4>
+
+<p>First, let's implement filtering by term. We will want some
+  buttons to select what term we're picking courses for.
+  Only one term can be selected
+  at a time. Only courses for the
+  selected term should be visible. Initially the fall term is selected.
+</p>
+
+<p>First, let's add a component to the interface for selecting the term.
+  We could
+  add it to the <strong>App</strong> or to the <strong>CourseList</strong>
+  component. Since the app includes the title and maybe many other things,
+  the course list seems like a better place.
+</p>
+
+<pre>const CourseList = ({ courses }) =&gt; (
+  &lt;React.Fragment&gt;
+    &lt;TermSelector /&gt;
+    &lt;Button.Group&gt;
+      { termCourses.map(course =&gt; &lt;Course key={ course.id } course={ course } /&gt;) }
+    &lt;/Button.Group&gt;
+  &lt;/React.Fragment&gt;
+);</pre>
+
+<p>JSX syntax only allows one component to be returned. <strong>React.Fragment</strong> 
+  is a way to 
+  group several components into one without generating
+  an unnecessary HTML element, such as a
+  <strong>div</strong>.
+</p>
+
+<p>Our term selector can just be a group of buttons, one for each term. 
+  We can get the term names using JavaScript's 
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Object/values" target="_blank">Object.values()</a>
+  function on <a href="https://courses.cs.northwestern.edu/394/intro-react.php#terms">our global terms data object</a>.
+</p>
+
+<pre>Object.values(terms) // returns ["Fall", "Winter", "Spring"]</pre>
+  
+<p>
+  The term selector is a group of buttons. It looks better to have
+  the buttons connected. With <strong>rbx</strong> this is done
+  by adding the <strong>hasAddons</strong> prop.
+</p>
+
+<pre>const TermSelector = () =&gt; (
+  &lt;Button.Group hasAddons&gt;
+    { Object.values(terms)
+        .map(value =&gt; &lt;Button key={value}&gt;{ value }&lt;/Button&gt;
+        )
+    }
+  &lt;/Button.Group&gt;
+);</pre>
+
+<p>Now we need a
+  trackable state variable for the current term. It should be initialized
+  to the fall term. We're going to 
+  need the term state in both the selector and the list of courses,
+  so we'll create the state in <strong>CourseList</strong>:
+</p>
+
+<pre>const CourseList = ({ courses }) =&gt; {
+  const [term, setTerm] = useState('Fall');
+  return (
+    &lt;React.Fragment&gt;
+      &lt;TermSelector /&gt;
+      &lt;Button.Group&gt;
+        { courses.map(course =&gt; &lt;Course key={ course.id } course={ course } /&gt;) }
+      &lt;/Button.Group&gt;
+    &lt;/React.Fragment&gt;
+  );
+};</pre>
+
+<p>We can filter the courses by term like this:</p>
+
+<pre>const termCourses = courses.filter(course =&gt; term === getCourseTerm(course));</pre>
+
+<p>We use this list to make the course buttons.</p>
+
+<pre>const CourseList = ({ courses }) =&gt; {
+  const [term, setTerm] = useState('Fall');
+  const termCourses = courses.filter(course =&gt; term === getCourseTerm(course));
+  
+  return (
+    &lt;React.Fragment&gt;
+      &lt;TermSelector /&gt;
+      &lt;Button.Group&gt;
+        { termCourses.map(course =&gt;
+           &lt;Course key={ course.id } course={ course } /&gt;) }
+      &lt;/Button.Group&gt;
+    &lt;/React.Fragment&gt;
+  );
+};</pre>
+
+<p>If you run this, you should see only fall courses. If you change the initial
+  value to 'Winter' or 'Spring', you should see only those courses. Make sure
+  that's true.
+</p>
+
+<p>Now we'd like to highlight the current term. That means we need
+  to pass the term as a property to the term selector.
+</p>
+
+<pre>const CourseList = ({ courses }) =&gt; {
+  const [term, setTerm] = useState('Fall');
+  const termCourses = courses.filter(course =&gt; term === getCourseTerm(course));
+  return (
+    &lt;React.Fragment&gt;
+      &lt;TermSelector term={ term } /&gt;
+      &lt;Button.Group&gt;
+        { termCourses.map(course =&gt; &lt;Course key={ course.id } course={ course } /&gt;) }
+      &lt;/Button.Group&gt;
+    &lt;/React.Fragment&gt;
+  );
+};</pre>
+
+<p>Then we change the term selector to highlight the selected button. In
+  <strong>rbx</strong>, the <strong>color</strong> prop can be used
+  to highlight a button. The color <strong>success</strong> is a nice
+  green, so we'll use that. Since we will want to do the same thing
+  with the course buttons, we'll make a function to return 
+  <strong>success</strong>
+  when passed a true value, and <strong>null</strong>
+  otherwise. React ignores props with null values.
+</p>
+
+<pre>const buttonColor = selected =&gt; (
+  selected ? 'success' : null
+);</pre>
+
+<p>Now we can change the term selector to highlight just the
+  selected term this way:
+</p>
+
+<pre>const TermSelector = ({ term }) =&gt; (
+  &lt;Button.Group hasAddons&gt;
+  { Object.values(terms)
+      .map(value =&gt; 
+        &lt;Button key={value}
+          color={ buttonColor(value === term) }
+          &gt;
+          { value }
+        &lt;/Button&gt;
+      )
+  }
+  &lt;/Button.Group&gt;
+);</pre>
+
+<p>With this code in place, the button that matches term and
+  only that button should be highlighted.
+</p>
+
+<p id="state-object">Now let's implement clicking on a term button to select
+  the term. To do that, we need to pass
+  <strong>setTerm</strong> to the term selector. We could do that
+  with a second attribute, but I prefer to keep related
+  values together. So we'll make and pass an object with
+  <strong>term</strong> and <strong>setTerm</strong>
+  bundled together. We could package them in an object like this:
+</p>
+
+<pre>{ term: term, setTerm: setTerm }</pre>
+
+<p>Because code like this comes up all the time, in 
+  EcmaScript 2015 it can be abbreviated to</p>
+
+<pre>{ term, setTerm }</pre>
+
+<p>So we can pass a state object with both
+  values to the <strong>TermSelector</strong>
+  component this way:
+</p>
+
+<pre>&lt;TermSelector state={ { term, setTerm } } /&gt;</pre>
+
+<p>The outer braces tell JSX to insert a value. The inner braces
+  make the state object.
+</p>
+
+<p>Putting this all together gives:</p>
+
+<pre>const CourseList = ({ courses }) =&gt; {
+  const [term, setTerm] = useState('Fall');
+  const termCourses = courses.filter(course =&gt; term === getCourseTerm(course));
+  return (
+    &lt;React.Fragment&gt;
+      &lt;TermSelector state={ { term, setTerm } } /&gt;
+      &lt;Button.Group&gt;
+        { termCourses.map(course
+          =&gt; &lt;Course key={ course.id } course={ course } state={ { term, setTerm } } /&gt;) }
+      &lt;/Button.Group&gt;
+    &lt;/React.Fragment&gt;
+  );
+};</pre>
+
+<p>We need to change the term selector to take a term state object,
+  rather than a term, and add an <strong>onClick</strong>
+  function to each button that sets the term with the appropriate value
+  when that button is clicked.
+</p>
+
+<pre>const TermSelector = ({ state }) =&gt; (
+  &lt;Button.Group hasAddons&gt;
+  { Object.values(terms)
+      .map(value =&gt; 
+        &lt;Button key={value}
+          color={ buttonColor(value === state.term) }
+          onClick={ () =&gt; state.setTerm(value) }
+          &gt;
+          { value }
+        &lt;/Button&gt;
+      )
+  }
+  &lt;/Button.Group&gt;
+);</pre>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#ui-events" target="_blank">More on event handlers</a>.
+</p>
+
+<p>We finished the term filtering part of our slice! Clicking a term button should now instantly
+  make that button highlight and all course buttons not
+  for that term disappear.
+</p>
+
+<h4>CodePen</h4>
+
+<div class="cp_embed_wrapper"><iframe name="cp_embed_5" src="./Quick, React!_files/qwLOJJ.html" scrolling="no" frameborder="0" height="265" allowtransparency="true" allowfullscreen="true" allowpaymentrequest="true" title="CourseSchedule Term Filtering" class="cp_embed_iframe " style="width: 100%; overflow:hidden; display:block;" id="cp_embed_qwLOJJ"></iframe></div>
+<script async="" src="./Quick, React!_files/ei.js"></script>
+
+<h4>Filtering by course conflicts</h4>
+
+<p>The other thing we want to do is show course conflicts.
+  We'll do that by disabling all
+  course buttons that conflict with courses selected so far.
+</p>
+
+<p>
+  To do that, we need a trackable state variable for the list of
+  currently
+  selected courses.  That's easy.
+</p>
+
+<pre>const [selected, setSelected] = useState([]);</pre>
+
+<p><strong>setSelected()</strong> isn't the
+  most convenient function to pass to our course buttons. Selecting
+  the button for a course needs to add that course to the list. De-selecting
+  it should remove the course from the list. This is called
+  <em>toggling</em>. So we should pass a function that
+  makes toggling easy.
+</p>
+
+<p>We have to be careful here. We do NOT want to modify
+  the array of selected items. 
+  <strong>State values should be immutable.</strong> I.e.,
+  they should never be directly or destructively modified. New states
+  should be constructed instead. We can do that here by using
+  <strong>concat()</strong> to create an array with
+  a new element, and <strong>filter()</strong> to create
+  an array without an element, using code like this:
+</p>
+
+<pre>selected.includes(x) ? selected.filter(y =&gt; y !== x) : [x].concat(selected)</pre>
+
+<p class="note-callout">
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#immutable-states" target="_blank">More on immutable
+    states</a>.
+</p>
+
+<p>
+  For cleaner code, we're going to encapsulate the creation 
+  of the state and the toggling function inside a subfunction
+  called <strong>useSelection</strong>.
+</p>
+
+<pre>const useSelection = () =&gt; {
+  const [selected, setSelected] = useState([]);
+  const toggle = (x) =&gt; {
+    setSelected(selected.includes(x) ? selected.filter(y =&gt; y !== x) : [x].concat(selected))
+  };
+  return [ selected, toggle ];
+};</pre>
+
+<p><strong>useSelection</strong> behaves like <strong>useState()</strong>.
+  It returns two values, a state value and a state
+  setting function. The state setting function, when given an object,
+  will set the selected state to 
+  a copy of <strong>selected</strong>
+  with the object added, if the object was not
+  selected. It will set the selected state to a 
+  copy of <strong>selected</strong>
+  without the object, if the object was selected.
+</p>
+
+<p>The name <strong>useSelection</strong> is not accidental.
+  Hook functions should only be called inside components and
+  <em>custom hooks</em>.  A custom
+  hook is any function whose name begins
+  with <strong>use</strong> that calls hook functions.
+  If this seems like an odd rule, it is. The reason
+  for it has to do with
+  <a href="https://reactjs.org/docs/hooks-rules.html" target="_blank">
+  the Rules of Hooks</a>. Those rules are required by the 
+  way React tracks which states go with which components.
+</p>
+
+<p>Now that we have <strong>useSelection()</strong>,
+  we can add it to our <strong>CourseList</strong>
+  component. Since the <strong>Course</strong> component
+  will need both the list of selected items and the
+  toggle function, we will pass a schedule state object with those
+  two things, as we did with the term state.
+</p>
+
+<pre>const CourseList = ({ courses }) =&gt; {
+  const [term, setTerm] = useState('Fall');
+  const [selected, toggle] = useSelection();
+  const termCourses = courses.filter(course =&gt; term === getCourseTerm(course));
+ 
+  return (
+    &lt;React.Fragment&gt;
+      &lt;TermSelector state={ { term, setTerm } } /&gt;
+      &lt;Button.Group&gt;
+        { termCourses.map(course =&gt;
+           &lt;Course key={ course.id } course={ course }
+             state={ { selected, toggle } } /&gt;) }
+      &lt;/Button.Group&gt;
+    &lt;/React.Fragment&gt;
+  );
+};</pre>
+
+<p>In the <strong>Course</strong> component, we can now
+  highlight selected courses and select / unselect courses,
+  using code similar to the <strong>TermSelector</strong>
+  component.
+</p>
+
+<pre>const Course = ({ course, state }) =&gt; (
+  &lt;Button color={ buttonColor(state.selected.includes(course)) }
+    onClick={ () =&gt; state.toggle(course) }
+    &gt;
+    { getCourseTerm(course) } CS { getCourseNumber(course) }: { course.title }
+  &lt;/Button&gt;
+);</pre>
+
+<p>Now we should see courses highlight and unhighlight
+  as we select them.
+</p>
+
+<p>Now for the tricky part. When we select a course,
+  we want to disable the buttons for any courses that conflict with
+  the course just selected.
+</p>
+
+<p>To do that, we need a function that can tell us when 
+  a course conflicts with a set of courses. If we define
+  a function 
+  <strong>hasConflict(<em>course</em>, <em>selected</em>)</strong>,
+  then the <strong>Course</strong> component just needs
+  a conditional <strong>disabled</strong> attribute:
+</p>
+
+<pre>const Course = ({ course, state }) =&gt; (
+  &lt;Button color={ buttonColor(state.selected.includes(course)) }
+    onClick={ () =&gt; state.toggle(course) }
+    disabled={ hasConflict(course, state.selected) }
+    &gt;
+    { getCourseTerm(course) } CS { getCourseNumber(course) }: { course.title }
+  &lt;/Button&gt;
+);</pre>
+
+<p>The function 
+  <strong>hasConflict(<em>course</em>, <em>selected</em>)</strong>
+  should return true if a course has a conflict with 
+  any selected course.
+</p>
+
+<pre>const hasConflict = (course, selected) =&gt; (
+  selected.some(selection =&gt; courseConflict(course, selection))
+);</pre>
+
+<p>The function 
+  <strong>courseConflict(<em>course1</em>, <em>course2</em>)</strong>
+  should return true if the courses are different but
+  in the same term and overlap on some day and time.
+  To calculate that efficiently over and over, we need
+  a better data structure than a string like "TuTh 10:00-11:20".
+  We will parse
+  meeting strings for each course into a more structured
+  form. For example, we will parse "TuTh 10:00-11:20" into
+</p>
+
+<pre>{ days: "TuTh" hours: { start: 600, end: 680 } }</pre>
+
+<p>The days have been separated out, and the 
+  start and end times have been converted into minutes from
+  midnight. The following function does this, using a regular expression
+  for the hard part:
+</p>
+
+<pre id="time-parts">const meetsPat = /^ *((?:M|Tu|W|Th|F)+) +(\d\d?):(\d\d) *[ -] *(\d\d?):(\d\d) *$/;
+
+const timeParts = meets =&gt; {
+  const [match, days, hh1, mm1, hh2, mm2] = meetsPat.exec(meets) || [];
+  return !match ? {} : {
+    days,
+    hours: {
+      start: hh1 * 60 + mm1 * 1,
+      end: hh2 * 60 + mm2 * 1
+    }
+  };
+};</pre>
+
+<p>To avoid constantly re-parsing the meeting strings, we'll add the 
+  new fields to each course, using
+  <a href="https://courses.cs.northwestern.edu/394/intro-react-notes.php#spread" target="_blank">the
+  spread operator</a>.
+</p>
+
+<pre>const addCourseTimes = course =&gt; ({
+  ...course,
+  ...timeParts(course.meets)
+});
+
+const addScheduleTimes = schedule =&gt; ({
+  title: schedule.title,
+  courses: schedule.courses.map(addCourseTimes)
+});</pre>
+
+<p>We call <strong>addSchedule()</strong> when loading data
+  in our <strong>App</strong> component.
+</p>
+
+<pre>const App = () =&gt; {
+  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+  ...
+  useEffect(() =&gt; {
+    const fetchSchedule =  async () =&gt; {
+      ...
+      setSchedule(addScheduleTimes(json));
+    }
+    fetchSchedule();
+  }, [])
+  ...
+};</pre>
+
+<p>Now we can define our <strong>courseConflict()</strong> functions:
+</p>
+
+<pre>const daysOverlap = (days1, days2) =&gt; ( 
+  days.some(day =&gt; days1.includes(day) &amp;&amp; days2.includes(day))
+);
+
+const hoursOverlap = (hours1, hours2) =&gt; (
+  Math.max(hours1.start, hours2.start) &lt; Math.min(hours1.end, hours2.end)
+);
+
+const timeConflict = (course1, course2) =&gt; (
+  daysOverlap(course1.days, course2.days) &amp;&amp; hoursOverlap(course1.hours, course2.hours)
+);
+
+const courseConflict = (course1, course2) =&gt; (
+  course1 !== course2
+  &amp;&amp; getCourseTerm(course1) === getCourseTerm(course2)
+  &amp;&amp; timeConflict(course1, course2)
+);</pre>
+
+<p>We've finished our fifth slice! We have a tool to select
+  a valid set of courses for a term. There was a fair bit of
+  code at the end, but most of it was for calculating time conflicts,
+  not React.
+</p>
+
+<h4>CodePen</h4>
+
+<div class="cp_embed_wrapper"><iframe name="cp_embed_6" src="./Quick, React!_files/GLPoJp.html" scrolling="no" frameborder="0" height="265" allowtransparency="true" allowfullscreen="true" allowpaymentrequest="true" title="CourseSchedule Course Filtering" class="cp_embed_iframe " style="width: 100%; overflow:hidden; display:block;" id="cp_embed_GLPoJp"></iframe></div>
+<script async="" src="./Quick, React!_files/ei.js"></script>
+
+
+<h3 id="firebase"><a name="firebase" href="https://courses.cs.northwestern.edu/394/intro-react.php#firebase">Slice 6: Reading and writing data with Firebase</a></h3>
+
+<p>The above code is fine for apps that just need to retrieve
+  data from some source, like Yelp or IMDB. But 
+  apps that need to maintain their own data need to work
+  with a database. For prototyping, cloud databases make sense
+  because they are free to use for small amounts of data and
+  network traffic, and easy to set up.
+</p>
+
+<p>I like Firebase because it provides three services
+  for free that are commonly needed: hosting, authentication, and a real-time
+  database. A real-time database is one that automatically notifies your
+  web app when data changes.
+  If you have not used Firebase, read
+  <a href="https://courses.cs.northwestern.edu/394/firebase-notes.php" target="_blank">my Firebase notes</a> before
+  continuing with this section.
+</p>
+
+<h4>Create your backend Firebase project</h4>
+
+<p>Create a project at Firebase for the Course
+  Scheduler. Add the Firebase real-time database
+  to it. Import 
+  <a href="https://courses.cs.northwestern.edu/394/data/fb-cs-courses-2019.json" target="_blank">
+  this data</a> into the database.
+</p>
+
+<p class="note-callout">
+  See <a href="https://firebase.google.com/docs/web/setup" target="_blank">
+  the official documentation</a> for how to create a backend real-time
+  database, and import a JSON object into it.
+</p>
+
+<p>The data is the same before, except that each course is stored
+  under its course ID, instead of in an array, following recommended
+  Firebase data design practice.
+</p>
+
+<h4>Boilerplate: Init, install, and import Firebase</h4>
+
+<p>The next few steps are standard procedure
+  that you do for every React app that 
+  uses the Firebase real-time database. 
+</p>
+
+<ul>
+  <li>Install the Firebase CLI with 
+    <strong>npm install -g firebase-tools</strong></li>
+  <li>Connect your app to the Firebase project you created, with
+    <strong>npm init</strong>
+  </li>
+  <li>Install the Firebase Node modules with
+    <strong>npm install firebase</strong>
+  </li>
+</ul>
+
+<p class="note-callout">
+  For more details, see <a href="https://courses.cs.northwestern.edu/394/firebase-notes.php">my notes</a>.
+</p>
+
+<p>Once everything is installed, you're ready to
+  start adding Firebase imports and calls to your code.
+</p>
+
+<p>
+  In <strong>App.js</strong> in our
+  course scheduler code, import the Firebase libraries.
+</p>
+
+<pre>import firebase from 'firebase/app';
+import 'firebase/database';</pre>
+
+<p>In this same file, add 
+  the <strong>firebase</strong> configuration
+  object for your project, initialize
+  the <strong>firebase</strong> object,
+  and create a "reference" to the 
+  database. You get the configuration object
+  from your Firebase project settings page.
+</p>
+
+<pre>const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  databaseURL: "...",
+  projectId: "...",
+  storageBucket: "....",
+  messagingSenderId: "...",
+  appId: "..."
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref();</pre>
+
+<h4>Fetching data from Firebase</h4>
+
+<p>We're finally ready to start adding code to
+  fetch course data from Firebase. 
+  Where to put code to fetch data from a dynamically database
+  is one of the more confusing aspects of React. Putting the code
+  in the wrong place can lead to:
+</p>
+  
+<ul>
+  <li>Pages that force the user to go to a new page and come back,
+    or restart the web app, in order to see the new data.
+  </li>
+  <li>Apps that run very slowly because they are fetching
+    data from the database every few seconds.
+  </li>
+</ul>
+  
+<p>With hooks, you put code to fetch data inside a
+  <strong>useEffect()</strong> function. 
+  For our app, we'll do this in our 
+  <strong>App</strong> component, just as 
+  <a href="https://courses.cs.northwestern.edu/394/intro-react.php#use-effect-fetch">we
+  did before with fetch</a>.</p>
+
+<pre>const App = () =&gt; {
+  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+
+  useEffect(() =&gt; {
+    <em>...fetch data here...</em>
+  }, []);
+
+  return (
+    ...
+  );
+};</pre>
+
+<p>In Firebase, we can fetch data with <strong>once()</strong>
+  or <strong>on()</strong>. 
+  <strong>on()</strong> gives us the automatic update
+  feature we want. You pass <strong>on()</strong>
+  the function to call whenever data changes. The
+  data comes in an object called a <em>snapshot</em>.
+  The <strong>val()</strong> method of the snapshot
+  returns the JSON object, if any. So, to store the
+  new data in our schedule, we can do this:
+</p>
+
+<pre class="bad-code">db.on('value', snap =&gt; {
+  if (snap.val()) setSchedule(addScheduleTimes(snap.val());
+});</pre>
+
+<p>This code has two problems. One is that the JSON in 
+  the snapshot has courses in an object, not an array.
+  We need
+  to either redo our app code, or transform the JSON before
+  storing it in the state. We'll do the
+  latter for simplicity, by making calling <strong>Object.values()</strong>
+  in 
+  <strong>addScheduleTimes()</strong>:
+</p>
+
+<pre>const addScheduleTimes = schedule =&gt; ({
+  title: schedule.title,
+  courses: Object.values(schedule.courses).map(addCourseTimes)
+});</pre>
+
+<p>The second problem with our call to <strong>on()</strong>
+  is that it doesn't catch
+  any errors that might happen. Early on, you'll make many 
+  errors using Firebase. You should always include an error handler, even if it's
+  one that just pops up an alert:
+</p>
+
+<pre>db.on('value', snap =&gt; {
+  if (snap.val()) setSchedule(addScheduleTimes(snap.val()));
+}, error =&gt; alert(error));</pre>
+
+<p>Putting this in our <strong>App</strong> component gives us</p>
+
+<pre class="bad-code">const App = () =&gt; {
+  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+
+  useEffect(() =&gt; {
+    db.on('value', snap =&gt; {
+      if (snap.val()) setSchedule(addScheduleTimes(snap.val()))    ;
+    }, error =&gt; alert(error));
+  }, []);
+
+  return (
+    ...
+  );
+};</pre>
+
+<p>This code is missing one more thing. <strong>on()</strong>
+  causes the browser to periodically check the database for changes.
+  It will keep doing that every few seconds until the user
+  leaves the page. But on a single page web app, components
+  come and go all the time. For example, you might not want a 
+  financial web app checking for stock price changes unless the
+  user has the stock price component visible on screen.
+</p>
+
+<p>
+  In React, removing a component from the page is called unmounting.
+  Unmounting a component should stop any listening processes it has started.
+  In Firebase, you stop listening by calling the <strong>off()</strong>
+  method. You pass it the exact same function you passed to
+  <strong>on()</strong>. To do this, you put it in a variable first.
+</p>
+
+<p>
+  For example, if we had called
+</p>
+
+<pre>const handleData = snap =&gt; {
+  if (snap.val()) setSchedule(addScheduleTimes(snap.val()));
+};
+db.on('value', handleData, error =&gt; alert(error));</pre>
+
+<p>then to stop listening, we call</p>
+
+<pre>db.off('value', handleData);</pre>
+
+<p>
+  In React Hooks, to run code when a component
+  unmounts, you return that code in a no-argument function
+  as the return value of the <strong>useEffect()</strong> call
+  that called <strong>on()</strong>.
+</p>
+
+<p id="use-effect-firebase">That leads to this definition of <strong>App</strong>.</p>
+
+<pre>const App = () =&gt; {
+  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+
+  useEffect(() =&gt; {
+    const handleData = snap =&gt; {
+      if (snap.val()) setSchedule(addScheduleTimes(snap.val()));
+    }
+    db.on('value', handleData, error =&gt; alert(error));
+    return () =&gt; { db.off('value', handleData); };
+  }, []);
+
+  return (
+    &lt;Container&gt;
+      &lt;Banner title={ schedule.title } /&gt;
+      &lt;CourseList courses={ schedule.courses } /&gt;
+    &lt;/Container&gt;
+);
+};</pre>
+
+<p>This code does what
+  <a href="https://courses.cs.northwestern.edu/394/intro-react.php#use-effect-fetch">the previous fetch code</a> did,
+  and more. Now, if the course data is changed by anyone, including
+  ourselves, <strong>handleData()</strong> will be called, updating
+  our local state, and re-rendering our web page, with no
+  additional work on our part.
+</p>
+
+<p>Notice that there was no need for <strong>async</strong>
+  or <strong>await</strong>.
+</p>
+
+<h4 id="store-data"><a name="store-data" href="https://courses.cs.northwestern.edu/394/intro-react.php#store-data">Storing data on Firebase</a></h4>
+
+<p>Now that we have a real database, we can do something
+  we couldn't before -- store data.
+</p>
+
+<p>Let's assume the scheduler is being used by a faculty
+  member who has the authority to reschedule courses
+  if there's an undesirable course conflict. To avoid
+  adding more complexity to our interface, we're going
+  to implement moving a course in a very simple, albeit
+  error-prone way: double-clicking a course button will
+  display the current meeting string for the user to 
+  change and save.
+</p>
+
+<p>Adding the ability to recognize double-clicks is fairly
+  simple:
+</p>
+
+<pre>const Course = ({ course, state }) =&gt; (
+&lt;Button color={ buttonColor(state.selected.includes(course)) }
+    onClick={ () =&gt; state.toggle(course) }
+    onDoubleClick={ () =&gt; moveCourse(course) }
+    disabled={ hasConflict(course, state.selected) }
+    &gt;
+    { getCourseTerm(course) } CS { getCourseNumber(course) }: { course.title }
+  &lt;/Button&gt;
+);</pre>
+
+<p><strong>moveCourse()</strong> should prompt the user to enter
+  a new meeting time, e.g., "MWF 15:00-15:50". If an invalid time
+  is entered, it should ask again. If the user enters nothing or
+  cancels, the prompt should exit. Otherwise, the new data
+  should be saved.
+</p>
+
+<p>We'll use the <strong>timeParts()</strong> function
+  <a href="https://courses.cs.northwestern.edu/394/intro-react.php#time-parts">we defined before</a>
+  to check validity. This will accept some silly meeting
+  times, but will at least guarantee that any
+  meeting time stored can be parsed into a meeting
+  time object. If the parsing fails, the code asks
+  again, using recursion.
+</p>
+
+<pre>const moveCourse = course =&gt; {
+  const meets = prompt('Enter new meeting data, in this format:', course.meets);
+  if (!meets) return;
+  const {days} = timeParts(meets);
+  if (days) saveCourse(course, meets); 
+  else moveCourse(course);
+};</pre>
+
+<p>Finally, we get to the part where data is saved.
+  <a href="https://courses.cs.northwestern.edu/394/firebase-notes.php#writing-fb">Firebase
+  has the four ways to save
+  data</a>. Of those,
+  <strong>update()</strong> makes the most sense here,
+  because we just want to update one field of one course.
+</p>
+
+<pre>const saveCourse = (course, meets) =&gt; {
+  db.child('courses').child(course.id).update({meets})
+    .catch(error =&gt; alert(error));
+};</pre>
+
+<p>The Firebase part was the easiest part of all!</p>
+
+<p>An important point to realize is that saving data to Firebase
+  will send the changed data back to all appropriate listeners.
+  That means that saving the data will cause listeners to update
+  the local state, so that everything is in synch,
+  with no additional work on our part.
+</p>
+
+<h3 id="authentication"><a name="authentication" href="https://courses.cs.northwestern.edu/394/intro-react.php#authentication">Slice 7: Authentication with Firebase</a></h3>
+
+<p>A common mistake that people do when developing
+  a new app is to start with sign up/log. 
+  That's misplaced effort. Logging in is not
+  an interesting thing to user test. Start
+  with the part of your app that is new and different.
+</p>
+
+<p>But now that we've made it possible for someone 
+  see course conflicts, and make changes, it 
+  makes sense to only let logged in users
+  make changes. This is called
+  <em>authentication</em> and
+  <em>authorization</em>. We'll only do
+  authentication here. 
+  With hooks, Firebase, and a helper UI library, it is not
+  too much code.
+</p>
+
+<h4>Enable authentication on Firebase</h4>
+
+<p>The first thing you have to do is enable authentication
+  for your Fireabase project on the Firebase web console. 
+  At the moment, Google's documentation doesn't have a simple page
+  describing this but it's not hard:
+</p>
+
+<ul>
+  <li>Go to Firebase console</li>
+  <li>Go to your project page</li>
+  <li>Click <strong>Authentication</strong> on the left</li>
+  <li>Click <strong>Sign-in method</strong> along the top</li>
+  <li>Click the method you want to enable.</li>
+  <li>In the panel that opens up, click enable and enter 
+    any required information
+  </li>
+  <li>Click <strong>Save</strong></li>
+</ul>
+
+<p>That last step is easy to miss on the Firebase web site!</p>
+
+<p>The two simplest methods to enable are Google and email.
+  Google takes care of all the details. 
+  We'll just do Google authentication
+  here. Click on that method, click <strong>enable</strong>, and click
+  <strong>Save</strong>.
+</p>
+
+<p>I recommend adding 
+  <a href="https://github.com/firebase/firebaseui-web-react" target="_blank">react-firebaseui</a> as well. It makes it easy
+  to add those "sign in with ..." buttons to your app.
+</p>
+
+<pre>npm install --save react-firebaseui</pre>
+
+<p>Import the following in <strong>App.js</strong>:</p>
+
+<pre>import 'firebase/auth';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';</pre>
+
+<p>You must have the first import to use authentication at all. The
+second import is for <strong>react-firebaseui</strong>. 
+</p>
+
+<p>In <strong>App.js</strong> add the following configuration object to your code</p>
+
+<pre>const uiConfig = {
+  signInFlow: 'popup',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  callbacks: {
+    signInSuccessWithAuthResult: () =&gt; false
+  }
+};</pre>
+
+<p>This tells the authentication component 
+  to display a "sign in with Google button". If
+  we include more sign in options, buttons for those will appear
+  as well.
+</p>
+
+<p class="note-callout">For more on setting up
+  Firebase authentication providers, see 
+  <a href="https://www.youtube.com/watch?v=zq0TuNqV0Ew" target="_blank">
+  this video</a>. Setting up Facebook authentication is particularly
+  complex. The code is in
+  <a href="https://github.com/lingonsaft/React-FirebaseUi-Authentication" target="_blank">
+  this repo</a> but it's old-style React. Follow the code patterns 
+  below for managing user state.
+</p>
+
+<h4>Decide what authentication means for your app</h4>
+
+<p>The above was boilerplate. Now we need to think about what
+  we want to happen when users are and are not logged in.
+  The most annoying pages are those that don't let you do anything
+  unless you are logged in.
+</p>
+
+<p>Clearly, we'll need a way for people to log in and log out.
+  We want anyone to be able to select
+  courses and see what conflicts arise. But we want only someone who is
+  logged in to be able to change a course's meeting time.
+</p>
+
+<h4>Add a state for a signed in user</h4>
+
+<p>We need a state to hold the signed in user, or null.</p>
+
+<pre>const [user, setUser] = useState(null);</pre>
+
+<p>We're going to need to call <strong>setUser</strong> whenever
+  the current user changes.
+  We can tell the Firebase authentication library what function
+  to call when authentication changes like this:
+</p>
+
+<pre>firebase.auth().onAuthStateChanged(<em>listener</em>);</pre>
+
+<p>The listener function will be passed an object with
+  the current user. <strong>null</strong> is passed
+  if there is no current user. <strong>setUser</strong>
+  works just fine as a listener.
+</p>
+  
+<p>
+  As with the Firebase <strong>on()</strong> listener,
+  we install the listener in a <strong>useEffect()</strong>
+  call. 
+</p>
+
+<pre>useEffect(() =&gt; {
+  firebase.auth().onAuthStateChanged(setUser);
+}, []);</pre>
+
+<p>
+  This should be a new <strong>useEffect()</strong>
+  call in our component. 
+  We can do as many <strong>useEffect()</strong> calls in a 
+  component as
+  we need.
+</p>
+
+<p>We pass the user to our banner and course list 
+components. Our new <strong>App</strong> component looks like this:</p>
+
+<pre>const App = () =&gt; {
+  const [schedule, setSchedule] = useState({ title: '', courses: [] });
+  const [user, setUser] = useState(null);
+
+  useEffect(() =&gt; {
+    const handleData = snap =&gt; {
+      if (snap.val()) setSchedule(addScheduleTimes(snap.val()));
+    };
+    db.on('value', handleData, error =&gt; alert(error));
+    return () =&gt; { db.off('value', handleData); };
+  }, []);
+
+  useEffect(() =&gt; {
+    firebase.auth().onAuthStateChanged(setUser);
+  }, []);
+
+  return (
+    &lt;Container&gt;
+      &lt;Banner title={ schedule.title } user={ user } /&gt;
+      &lt;CourseList courses={ schedule.courses } user={ user } /&gt;
+    &lt;/Container&gt;
+  );
+};</pre>
+
+<h4>Add code to sign in and out</h4>
+
+<p>We'll put the login/signup logic 
+  in our banner, since that's at the top of the page.
+  The banner should show the login option if the user is null,
+  and the welcome message plus a logout button if the user is not null.
+</p>
+
+<p>As always,
+  as soon as components get complicated, it pays to refactor into
+  subcomponents. We'll define one component for welcoming logged-in
+  users and another for the log in option.
+</p>
+
+<pre>const Banner = ({ user, title }) =&gt; (
+  &lt;React.Fragment&gt;
+    { user ? &lt;Welcome user={ user } /&gt; : &lt;SignIn /&gt; }
+    &lt;Title&gt;{ title || '[loading...]' }&lt;/Title&gt;
+  &lt;/React.Fragment&gt;
+);</pre>
+
+<p>Our welcome component will display the user's name and a logout
+  button. In Firebase authentication, you log the current user out
+  with
+</p>
+
+<pre>firebase.auth().signOut()</pre>
+
+<p>I experimented with <strong>rbx</strong> for a bit.
+  The <strong>Message</strong> component looked like
+  what I wanted, so my welcome component
+  ended up as:
+</p>
+
+<pre>const Welcome = ({ user }) =&gt; (
+  &lt;Message color="info"&gt;
+    &lt;Message.Header&gt;
+      Welcome, {user.displayName}
+      &lt;Button primary onClick={() =&gt; firebase.auth().signOut()}&gt;
+        Log out
+      &lt;/Button&gt;
+    &lt;/Message.Header&gt;
+  &lt;/Message&gt;
+);</pre>
+
+<p>That looks like this when the user is signed in:</p>
+
+<img src="./Quick, React!_files/signed-in.png">
+
+<p>The component to sign in is taken care of for us by
+  the <strong>StyledFirebaseAuth</strong> component
+  provided by <strong>react-firebaseui</strong>. It 
+  uses the <strong>uiConfig</strong> object to decide
+  what buttons to show.
+</p>
+
+<pre>const SignIn = () =&gt; (
+  &lt;StyledFirebaseAuth
+    uiConfig={uiConfig}
+    firebaseAuth={firebase.auth()}
+  /&gt;
+);</pre>
+
+<p>That's literally all we need to do to show a "sign in with Google"
+  button that looks like this:
+</p>
+
+<img src="./Quick, React!_files/signed-out.png">
+
+<h4>Controlling what users can do with courses</h4>
+
+<p>The course list component just passes the user along to
+  each course component:</p>
+
+<pre>const CourseList = ({ courses, user }) =&gt; {
+  ... 
+  return (
+    &lt;React.Fragment&gt;
+      ...
+      &lt;Button.Group&gt;
+        { termCourses.map(course =&gt;
+           &lt;Course key={ course.id } course={ course }
+             state={ { selected, toggle } }
+             user={ user } /&gt;) }
+      &lt;/Button.Group&gt;
+    &lt;/React.Fragment&gt;
+  );
+};</pre>
+
+<p>The only change we need to make in the course component 
+  is to provide the double-click action to change a course time
+  if the user is null.
+  So we change our code to test for the user and return the move course function 
+  only if the user is not null:
+</p>
+
+<pre>const Course = ({ course, state, user }) =&gt; (
+  &lt;Button color={ buttonColor(state.selected.includes(course)) }
+    onClick={ () =&gt; state.toggle(course) }
+    onDoubleClick={ user ? () =&gt; moveCourse(course) : null }
+    disabled={ hasConflict(course, state.selected) }
+    &gt;
+    { getCourseTerm(course) } CS { getCourseNumber(course) }: { course.title }
+  &lt;/Button&gt;
+);</pre>
+
+<p>Our slice is done! We now have a working database and
+  Google-based authentication. While there was a fair amount
+  of code, almost all of it was for the user interface
+  or business logic, not for managing changes in the database
+  or user status.
+</p>
+
+<h4>Github Gist</h4>
+
+<p>Here's the Github gist for the complete <strong>App.js</strong>. 
+  This is not runnable code until you replace the 
+  dummy Firebase <strong>config</strong> object with
+  an object for a real project.
+</p>
+
+<script src="./Quick, React!_files/ef4e184211eabc535f1a40228f4717cb.js"></script><link rel="stylesheet" href="./Quick, React!_files/gist-embed-3a954d556ba4369aeac571b372bb7d77.css"><div id="gist96171864" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-app-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tbody><tr>
+        <td id="file-app-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-app-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-smi">React</span>, { <span class="pl-smi">useState</span>, <span class="pl-smi">useEffect</span>} <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>react<span class="pl-pds">'</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-app-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-s"><span class="pl-pds">"</span>rbx/index.css<span class="pl-pds">"</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-app-js-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> { <span class="pl-smi">Button</span>, <span class="pl-smi">Container</span>, <span class="pl-smi">Message</span>, <span class="pl-smi">Title</span> } <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">"</span>rbx<span class="pl-pds">"</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-app-js-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-smi">firebase</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>firebase/app<span class="pl-pds">'</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-app-js-LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-s"><span class="pl-pds">'</span>firebase/auth<span class="pl-pds">'</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-app-js-LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-s"><span class="pl-pds">'</span>firebase/database<span class="pl-pds">'</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-app-js-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-smi">StyledFirebaseAuth</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>react-firebaseui/StyledFirebaseAuth<span class="pl-pds">'</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-app-js-LC8" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-app-js-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">terms</span> <span class="pl-k">=</span> { <span class="pl-c1">F</span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Fall<span class="pl-pds">'</span></span>, <span class="pl-c1">W</span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Winter<span class="pl-pds">'</span></span>, <span class="pl-c1">S</span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Spring<span class="pl-pds">'</span></span>};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-app-js-LC10" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">days</span> <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">'</span>M<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Tu<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>W<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Th<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>F<span class="pl-pds">'</span></span>];</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-app-js-LC11" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">meetsPat</span> <span class="pl-k">=</span><span class="pl-sr"> <span class="pl-pds">/</span><span class="pl-k">^</span> <span class="pl-k">*</span>((?:M<span class="pl-k">|</span>Tu<span class="pl-k">|</span>W<span class="pl-k">|</span>Th<span class="pl-k">|</span>F)<span class="pl-k">+</span>) <span class="pl-k">+</span>(<span class="pl-c1">\d\d</span><span class="pl-k">?</span>):(<span class="pl-c1">\d\d</span>) <span class="pl-k">*</span><span class="pl-c1">[ -]</span> <span class="pl-k">*</span>(<span class="pl-c1">\d\d</span><span class="pl-k">?</span>):(<span class="pl-c1">\d\d</span>) <span class="pl-k">*</span><span class="pl-k">$</span><span class="pl-pds">/</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-app-js-LC12" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-app-js-LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> FIREBASE</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-app-js-LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">firebaseConfig</span> <span class="pl-k">=</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-app-js-LC15" class="blob-code blob-code-inner js-file-line">  apiKey<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-app-js-LC16" class="blob-code blob-code-inner js-file-line">  authDomain<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-app-js-LC17" class="blob-code blob-code-inner js-file-line">  databaseURL<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-app-js-LC18" class="blob-code blob-code-inner js-file-line">  projectId<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-app-js-LC19" class="blob-code blob-code-inner js-file-line">  storageBucket<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-app-js-LC20" class="blob-code blob-code-inner js-file-line">  messagingSenderId<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-app-js-LC21" class="blob-code blob-code-inner js-file-line">  appId<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-app-js-LC22" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-app-js-LC23" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-app-js-LC24" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">firebase</span>.<span class="pl-en">initializeApp</span>(firebaseConfig);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-app-js-LC25" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">db</span> <span class="pl-k">=</span> <span class="pl-smi">firebase</span>.<span class="pl-en">database</span>().<span class="pl-en">ref</span>();</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-app-js-LC26" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-app-js-LC27" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> AUTH UI</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-app-js-LC28" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">uiConfig</span> <span class="pl-k">=</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-app-js-LC29" class="blob-code blob-code-inner js-file-line">  signInFlow<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>popup<span class="pl-pds">'</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-app-js-LC30" class="blob-code blob-code-inner js-file-line">  signInOptions<span class="pl-k">:</span> [</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-app-js-LC31" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">firebase</span>.<span class="pl-smi">auth</span>.<span class="pl-smi">GoogleAuthProvider</span>.<span class="pl-c1">PROVIDER_ID</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-app-js-LC32" class="blob-code blob-code-inner js-file-line">  ],</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-app-js-LC33" class="blob-code blob-code-inner js-file-line">  callbacks<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-app-js-LC34" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">signInSuccessWithAuthResult</span><span class="pl-k">:</span> () <span class="pl-k">=&gt;</span> <span class="pl-c1">false</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-app-js-LC35" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-app-js-LC36" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-app-js-LC37" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-app-js-LC38" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">Welcome</span> <span class="pl-k">=</span> ({ user }) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-app-js-LC39" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&lt;</span>Message color<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>info<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-app-js-LC40" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span><span class="pl-smi">Message</span>.<span class="pl-smi">Header</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-app-js-LC41" class="blob-code blob-code-inner js-file-line">      Welcome, {<span class="pl-smi">user</span>.<span class="pl-smi">displayName</span>}</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-app-js-LC42" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&lt;</span>Button primary onClick<span class="pl-k">=</span>{() <span class="pl-k">=&gt;</span> <span class="pl-smi">firebase</span>.<span class="pl-en">auth</span>().<span class="pl-en">signOut</span>()}<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-app-js-LC43" class="blob-code blob-code-inner js-file-line">        Log out</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-app-js-LC44" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&lt;</span><span class="pl-k">/</span>Button<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-app-js-LC45" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span><span class="pl-k">/</span><span class="pl-smi">Message</span>.<span class="pl-smi">Header</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L46" class="blob-num js-line-number" data-line-number="46"></td>
+        <td id="file-app-js-LC46" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&lt;</span><span class="pl-k">/</span>Message<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L47" class="blob-num js-line-number" data-line-number="47"></td>
+        <td id="file-app-js-LC47" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L48" class="blob-num js-line-number" data-line-number="48"></td>
+        <td id="file-app-js-LC48" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L49" class="blob-num js-line-number" data-line-number="49"></td>
+        <td id="file-app-js-LC49" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">SignIn</span> <span class="pl-k">=</span> () <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L50" class="blob-num js-line-number" data-line-number="50"></td>
+        <td id="file-app-js-LC50" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&lt;</span>StyledFirebaseAuth</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L51" class="blob-num js-line-number" data-line-number="51"></td>
+        <td id="file-app-js-LC51" class="blob-code blob-code-inner js-file-line">    uiConfig<span class="pl-k">=</span>{uiConfig}</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L52" class="blob-num js-line-number" data-line-number="52"></td>
+        <td id="file-app-js-LC52" class="blob-code blob-code-inner js-file-line">    firebaseAuth<span class="pl-k">=</span>{<span class="pl-smi">firebase</span>.<span class="pl-en">auth</span>()}</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L53" class="blob-num js-line-number" data-line-number="53"></td>
+        <td id="file-app-js-LC53" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">/</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L54" class="blob-num js-line-number" data-line-number="54"></td>
+        <td id="file-app-js-LC54" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L55" class="blob-num js-line-number" data-line-number="55"></td>
+        <td id="file-app-js-LC55" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L56" class="blob-num js-line-number" data-line-number="56"></td>
+        <td id="file-app-js-LC56" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">Banner</span> <span class="pl-k">=</span> ({ user, title }) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L57" class="blob-num js-line-number" data-line-number="57"></td>
+        <td id="file-app-js-LC57" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&lt;</span><span class="pl-smi">React</span>.<span class="pl-smi">Fragment</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L58" class="blob-num js-line-number" data-line-number="58"></td>
+        <td id="file-app-js-LC58" class="blob-code blob-code-inner js-file-line">    { user <span class="pl-k">?</span> <span class="pl-k">&lt;</span>Welcome user<span class="pl-k">=</span>{ user } <span class="pl-k">/</span><span class="pl-k">&gt;</span> <span class="pl-k">:</span> <span class="pl-k">&lt;</span>SignIn <span class="pl-k">/</span><span class="pl-k">&gt;</span> }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L59" class="blob-num js-line-number" data-line-number="59"></td>
+        <td id="file-app-js-LC59" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span>Title<span class="pl-k">&gt;</span>{ title <span class="pl-k">||</span> <span class="pl-s"><span class="pl-pds">'</span>[loading...]<span class="pl-pds">'</span></span> }<span class="pl-k">&lt;</span><span class="pl-k">/</span>Title<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L60" class="blob-num js-line-number" data-line-number="60"></td>
+        <td id="file-app-js-LC60" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&lt;</span><span class="pl-k">/</span><span class="pl-smi">React</span>.<span class="pl-smi">Fragment</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L61" class="blob-num js-line-number" data-line-number="61"></td>
+        <td id="file-app-js-LC61" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L62" class="blob-num js-line-number" data-line-number="62"></td>
+        <td id="file-app-js-LC62" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L63" class="blob-num js-line-number" data-line-number="63"></td>
+        <td id="file-app-js-LC63" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">getCourseTerm</span> <span class="pl-k">=</span> <span class="pl-smi">course</span> <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L64" class="blob-num js-line-number" data-line-number="64"></td>
+        <td id="file-app-js-LC64" class="blob-code blob-code-inner js-file-line">  terms[<span class="pl-smi">course</span>.<span class="pl-c1">id</span>.<span class="pl-c1">charAt</span>(<span class="pl-c1">0</span>)]</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L65" class="blob-num js-line-number" data-line-number="65"></td>
+        <td id="file-app-js-LC65" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L66" class="blob-num js-line-number" data-line-number="66"></td>
+        <td id="file-app-js-LC66" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L67" class="blob-num js-line-number" data-line-number="67"></td>
+        <td id="file-app-js-LC67" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">getCourseNumber</span> <span class="pl-k">=</span> <span class="pl-smi">course</span> <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L68" class="blob-num js-line-number" data-line-number="68"></td>
+        <td id="file-app-js-LC68" class="blob-code blob-code-inner js-file-line">  <span class="pl-smi">course</span>.<span class="pl-c1">id</span>.<span class="pl-c1">slice</span>(<span class="pl-c1">1</span>, <span class="pl-c1">4</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L69" class="blob-num js-line-number" data-line-number="69"></td>
+        <td id="file-app-js-LC69" class="blob-code blob-code-inner js-file-line">)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L70" class="blob-num js-line-number" data-line-number="70"></td>
+        <td id="file-app-js-LC70" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L71" class="blob-num js-line-number" data-line-number="71"></td>
+        <td id="file-app-js-LC71" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">daysOverlap</span> <span class="pl-k">=</span> (<span class="pl-smi">days1</span>, <span class="pl-smi">days2</span>) <span class="pl-k">=&gt;</span> ( </td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L72" class="blob-num js-line-number" data-line-number="72"></td>
+        <td id="file-app-js-LC72" class="blob-code blob-code-inner js-file-line">  <span class="pl-smi">days</span>.<span class="pl-en">some</span>(<span class="pl-smi">day</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">days1</span>.<span class="pl-en">includes</span>(day) <span class="pl-k">&amp;&amp;</span> <span class="pl-smi">days2</span>.<span class="pl-en">includes</span>(day))</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L73" class="blob-num js-line-number" data-line-number="73"></td>
+        <td id="file-app-js-LC73" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L74" class="blob-num js-line-number" data-line-number="74"></td>
+        <td id="file-app-js-LC74" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L75" class="blob-num js-line-number" data-line-number="75"></td>
+        <td id="file-app-js-LC75" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">hoursOverlap</span> <span class="pl-k">=</span> (<span class="pl-smi">hours1</span>, <span class="pl-smi">hours2</span>) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L76" class="blob-num js-line-number" data-line-number="76"></td>
+        <td id="file-app-js-LC76" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">Math</span>.<span class="pl-c1">max</span>(<span class="pl-smi">hours1</span>.<span class="pl-c1">start</span>, <span class="pl-smi">hours2</span>.<span class="pl-c1">start</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L77" class="blob-num js-line-number" data-line-number="77"></td>
+        <td id="file-app-js-LC77" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span> <span class="pl-c1">Math</span>.<span class="pl-c1">min</span>(<span class="pl-smi">hours1</span>.<span class="pl-smi">end</span>, <span class="pl-smi">hours2</span>.<span class="pl-smi">end</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L78" class="blob-num js-line-number" data-line-number="78"></td>
+        <td id="file-app-js-LC78" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L79" class="blob-num js-line-number" data-line-number="79"></td>
+        <td id="file-app-js-LC79" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L80" class="blob-num js-line-number" data-line-number="80"></td>
+        <td id="file-app-js-LC80" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">timeConflict</span> <span class="pl-k">=</span> (<span class="pl-smi">course1</span>, <span class="pl-smi">course2</span>) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L81" class="blob-num js-line-number" data-line-number="81"></td>
+        <td id="file-app-js-LC81" class="blob-code blob-code-inner js-file-line">  <span class="pl-en">daysOverlap</span>(<span class="pl-smi">course1</span>.<span class="pl-smi">days</span>, <span class="pl-smi">course2</span>.<span class="pl-smi">days</span>) <span class="pl-k">&amp;&amp;</span> <span class="pl-en">hoursOverlap</span>(<span class="pl-smi">course1</span>.<span class="pl-smi">hours</span>, <span class="pl-smi">course2</span>.<span class="pl-smi">hours</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L82" class="blob-num js-line-number" data-line-number="82"></td>
+        <td id="file-app-js-LC82" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L83" class="blob-num js-line-number" data-line-number="83"></td>
+        <td id="file-app-js-LC83" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L84" class="blob-num js-line-number" data-line-number="84"></td>
+        <td id="file-app-js-LC84" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">courseConflict</span> <span class="pl-k">=</span> (<span class="pl-smi">course1</span>, <span class="pl-smi">course2</span>) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L85" class="blob-num js-line-number" data-line-number="85"></td>
+        <td id="file-app-js-LC85" class="blob-code blob-code-inner js-file-line">  course1 <span class="pl-k">!==</span> course2</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L86" class="blob-num js-line-number" data-line-number="86"></td>
+        <td id="file-app-js-LC86" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&amp;&amp;</span> <span class="pl-en">getCourseTerm</span>(course1) <span class="pl-k">===</span> <span class="pl-en">getCourseTerm</span>(course2)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L87" class="blob-num js-line-number" data-line-number="87"></td>
+        <td id="file-app-js-LC87" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&amp;&amp;</span> <span class="pl-en">timeConflict</span>(course1, course2)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L88" class="blob-num js-line-number" data-line-number="88"></td>
+        <td id="file-app-js-LC88" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L89" class="blob-num js-line-number" data-line-number="89"></td>
+        <td id="file-app-js-LC89" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L90" class="blob-num js-line-number" data-line-number="90"></td>
+        <td id="file-app-js-LC90" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">hasConflict</span> <span class="pl-k">=</span> (<span class="pl-smi">course</span>, <span class="pl-smi">selected</span>) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L91" class="blob-num js-line-number" data-line-number="91"></td>
+        <td id="file-app-js-LC91" class="blob-code blob-code-inner js-file-line">  <span class="pl-smi">selected</span>.<span class="pl-en">some</span>(<span class="pl-smi">selection</span> <span class="pl-k">=&gt;</span> course <span class="pl-k">!==</span> selection <span class="pl-k">&amp;&amp;</span> <span class="pl-en">courseConflict</span>(course, selection))</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L92" class="blob-num js-line-number" data-line-number="92"></td>
+        <td id="file-app-js-LC92" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L93" class="blob-num js-line-number" data-line-number="93"></td>
+        <td id="file-app-js-LC93" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L94" class="blob-num js-line-number" data-line-number="94"></td>
+        <td id="file-app-js-LC94" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">buttonColor</span> <span class="pl-k">=</span> <span class="pl-smi">selected</span> <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L95" class="blob-num js-line-number" data-line-number="95"></td>
+        <td id="file-app-js-LC95" class="blob-code blob-code-inner js-file-line">  selected <span class="pl-k">?</span> <span class="pl-s"><span class="pl-pds">'</span>success<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-c1">null</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L96" class="blob-num js-line-number" data-line-number="96"></td>
+        <td id="file-app-js-LC96" class="blob-code blob-code-inner js-file-line">)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L97" class="blob-num js-line-number" data-line-number="97"></td>
+        <td id="file-app-js-LC97" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L98" class="blob-num js-line-number" data-line-number="98"></td>
+        <td id="file-app-js-LC98" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">TermSelector</span> <span class="pl-k">=</span> ({ state }) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L99" class="blob-num js-line-number" data-line-number="99"></td>
+        <td id="file-app-js-LC99" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&lt;</span><span class="pl-smi">Button</span>.<span class="pl-smi">Group</span> hasAddons<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L100" class="blob-num js-line-number" data-line-number="100"></td>
+        <td id="file-app-js-LC100" class="blob-code blob-code-inner js-file-line">    { <span class="pl-c1">Object</span>.<span class="pl-c1">values</span>(terms)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L101" class="blob-num js-line-number" data-line-number="101"></td>
+        <td id="file-app-js-LC101" class="blob-code blob-code-inner js-file-line">        .<span class="pl-en">map</span>(<span class="pl-smi">value</span> <span class="pl-k">=&gt;</span> </td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L102" class="blob-num js-line-number" data-line-number="102"></td>
+        <td id="file-app-js-LC102" class="blob-code blob-code-inner js-file-line">          <span class="pl-k">&lt;</span>Button key<span class="pl-k">=</span>{value}</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L103" class="blob-num js-line-number" data-line-number="103"></td>
+        <td id="file-app-js-LC103" class="blob-code blob-code-inner js-file-line">            color<span class="pl-k">=</span>{ <span class="pl-en">buttonColor</span>(value <span class="pl-k">===</span> <span class="pl-smi">state</span>.<span class="pl-smi">term</span>) }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L104" class="blob-num js-line-number" data-line-number="104"></td>
+        <td id="file-app-js-LC104" class="blob-code blob-code-inner js-file-line">            onClick<span class="pl-k">=</span>{ () <span class="pl-k">=&gt;</span> <span class="pl-smi">state</span>.<span class="pl-en">setTerm</span>(value) }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L105" class="blob-num js-line-number" data-line-number="105"></td>
+        <td id="file-app-js-LC105" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L106" class="blob-num js-line-number" data-line-number="106"></td>
+        <td id="file-app-js-LC106" class="blob-code blob-code-inner js-file-line">            { value }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L107" class="blob-num js-line-number" data-line-number="107"></td>
+        <td id="file-app-js-LC107" class="blob-code blob-code-inner js-file-line">          <span class="pl-k">&lt;</span><span class="pl-k">/</span>Button<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L108" class="blob-num js-line-number" data-line-number="108"></td>
+        <td id="file-app-js-LC108" class="blob-code blob-code-inner js-file-line">        )</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L109" class="blob-num js-line-number" data-line-number="109"></td>
+        <td id="file-app-js-LC109" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L110" class="blob-num js-line-number" data-line-number="110"></td>
+        <td id="file-app-js-LC110" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">&lt;</span><span class="pl-k">/</span><span class="pl-smi">Button</span>.<span class="pl-smi">Group</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L111" class="blob-num js-line-number" data-line-number="111"></td>
+        <td id="file-app-js-LC111" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L112" class="blob-num js-line-number" data-line-number="112"></td>
+        <td id="file-app-js-LC112" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L113" class="blob-num js-line-number" data-line-number="113"></td>
+        <td id="file-app-js-LC113" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">timeParts</span> <span class="pl-k">=</span> <span class="pl-smi">meets</span> <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L114" class="blob-num js-line-number" data-line-number="114"></td>
+        <td id="file-app-js-LC114" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> [<span class="pl-c1">match</span>, <span class="pl-c1">days</span>, <span class="pl-c1">hh1</span>, <span class="pl-c1">mm1</span>, <span class="pl-c1">hh2</span>, <span class="pl-c1">mm2</span>] <span class="pl-k">=</span> <span class="pl-smi">meetsPat</span>.<span class="pl-c1">exec</span>(meets) <span class="pl-k">||</span> [];</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L115" class="blob-num js-line-number" data-line-number="115"></td>
+        <td id="file-app-js-LC115" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">return</span> <span class="pl-k">!</span>match <span class="pl-k">?</span> {} <span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L116" class="blob-num js-line-number" data-line-number="116"></td>
+        <td id="file-app-js-LC116" class="blob-code blob-code-inner js-file-line">    days,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L117" class="blob-num js-line-number" data-line-number="117"></td>
+        <td id="file-app-js-LC117" class="blob-code blob-code-inner js-file-line">    hours<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L118" class="blob-num js-line-number" data-line-number="118"></td>
+        <td id="file-app-js-LC118" class="blob-code blob-code-inner js-file-line">      start<span class="pl-k">:</span> hh1 <span class="pl-k">*</span> <span class="pl-c1">60</span> <span class="pl-k">+</span> mm1 <span class="pl-k">*</span> <span class="pl-c1">1</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L119" class="blob-num js-line-number" data-line-number="119"></td>
+        <td id="file-app-js-LC119" class="blob-code blob-code-inner js-file-line">      end<span class="pl-k">:</span> hh2 <span class="pl-k">*</span> <span class="pl-c1">60</span> <span class="pl-k">+</span> mm2 <span class="pl-k">*</span> <span class="pl-c1">1</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L120" class="blob-num js-line-number" data-line-number="120"></td>
+        <td id="file-app-js-LC120" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L121" class="blob-num js-line-number" data-line-number="121"></td>
+        <td id="file-app-js-LC121" class="blob-code blob-code-inner js-file-line">  };</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L122" class="blob-num js-line-number" data-line-number="122"></td>
+        <td id="file-app-js-LC122" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L123" class="blob-num js-line-number" data-line-number="123"></td>
+        <td id="file-app-js-LC123" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L124" class="blob-num js-line-number" data-line-number="124"></td>
+        <td id="file-app-js-LC124" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">saveCourse</span> <span class="pl-k">=</span> (<span class="pl-smi">course</span>, <span class="pl-smi">meets</span>) <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L125" class="blob-num js-line-number" data-line-number="125"></td>
+        <td id="file-app-js-LC125" class="blob-code blob-code-inner js-file-line">  <span class="pl-smi">db</span>.<span class="pl-en">child</span>(<span class="pl-s"><span class="pl-pds">'</span>courses<span class="pl-pds">'</span></span>).<span class="pl-en">child</span>(<span class="pl-smi">course</span>.<span class="pl-c1">id</span>).<span class="pl-en">update</span>({meets})</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L126" class="blob-num js-line-number" data-line-number="126"></td>
+        <td id="file-app-js-LC126" class="blob-code blob-code-inner js-file-line">    .<span class="pl-c1">catch</span>(<span class="pl-smi">error</span> <span class="pl-k">=&gt;</span> <span class="pl-en">alert</span>(error));</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L127" class="blob-num js-line-number" data-line-number="127"></td>
+        <td id="file-app-js-LC127" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L128" class="blob-num js-line-number" data-line-number="128"></td>
+        <td id="file-app-js-LC128" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L129" class="blob-num js-line-number" data-line-number="129"></td>
+        <td id="file-app-js-LC129" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">moveCourse</span> <span class="pl-k">=</span> <span class="pl-smi">course</span> <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L130" class="blob-num js-line-number" data-line-number="130"></td>
+        <td id="file-app-js-LC130" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> <span class="pl-c1">meets</span> <span class="pl-k">=</span> <span class="pl-en">prompt</span>(<span class="pl-s"><span class="pl-pds">'</span>Enter new meeting data, in this format:<span class="pl-pds">'</span></span>, <span class="pl-smi">course</span>.<span class="pl-smi">meets</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L131" class="blob-num js-line-number" data-line-number="131"></td>
+        <td id="file-app-js-LC131" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">if</span> (<span class="pl-k">!</span>meets) <span class="pl-k">return</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L132" class="blob-num js-line-number" data-line-number="132"></td>
+        <td id="file-app-js-LC132" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> {<span class="pl-c1">days</span>} <span class="pl-k">=</span> <span class="pl-en">timeParts</span>(meets);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L133" class="blob-num js-line-number" data-line-number="133"></td>
+        <td id="file-app-js-LC133" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">if</span> (days) <span class="pl-en">saveCourse</span>(course, meets); </td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L134" class="blob-num js-line-number" data-line-number="134"></td>
+        <td id="file-app-js-LC134" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">else</span> <span class="pl-en">moveCourse</span>(course);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L135" class="blob-num js-line-number" data-line-number="135"></td>
+        <td id="file-app-js-LC135" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L136" class="blob-num js-line-number" data-line-number="136"></td>
+        <td id="file-app-js-LC136" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L137" class="blob-num js-line-number" data-line-number="137"></td>
+        <td id="file-app-js-LC137" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">Course</span> <span class="pl-k">=</span> ({ course, state, user }) <span class="pl-k">=&gt;</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L138" class="blob-num js-line-number" data-line-number="138"></td>
+        <td id="file-app-js-LC138" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span>Button color<span class="pl-k">=</span>{ <span class="pl-en">buttonColor</span>(<span class="pl-smi">state</span>.<span class="pl-c1">selected</span>.<span class="pl-en">includes</span>(course)) }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L139" class="blob-num js-line-number" data-line-number="139"></td>
+        <td id="file-app-js-LC139" class="blob-code blob-code-inner js-file-line">      onClick<span class="pl-k">=</span>{ () <span class="pl-k">=&gt;</span> <span class="pl-smi">state</span>.<span class="pl-c1">toggle</span>(course) }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L140" class="blob-num js-line-number" data-line-number="140"></td>
+        <td id="file-app-js-LC140" class="blob-code blob-code-inner js-file-line">      onDoubleClick<span class="pl-k">=</span>{ user <span class="pl-k">?</span> () <span class="pl-k">=&gt;</span> <span class="pl-en">moveCourse</span>(course) <span class="pl-k">:</span> <span class="pl-c1">null</span> }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L141" class="blob-num js-line-number" data-line-number="141"></td>
+        <td id="file-app-js-LC141" class="blob-code blob-code-inner js-file-line">      disabled<span class="pl-k">=</span>{ <span class="pl-en">hasConflict</span>(course, <span class="pl-smi">state</span>.<span class="pl-c1">selected</span>) }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L142" class="blob-num js-line-number" data-line-number="142"></td>
+        <td id="file-app-js-LC142" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L143" class="blob-num js-line-number" data-line-number="143"></td>
+        <td id="file-app-js-LC143" class="blob-code blob-code-inner js-file-line">      { <span class="pl-en">getCourseTerm</span>(course) } <span class="pl-c1">CS</span> { <span class="pl-en">getCourseNumber</span>(course) }<span class="pl-k">:</span> { <span class="pl-smi">course</span>.<span class="pl-c1">title</span> }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L144" class="blob-num js-line-number" data-line-number="144"></td>
+        <td id="file-app-js-LC144" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span><span class="pl-k">/</span>Button<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L145" class="blob-num js-line-number" data-line-number="145"></td>
+        <td id="file-app-js-LC145" class="blob-code blob-code-inner js-file-line">);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L146" class="blob-num js-line-number" data-line-number="146"></td>
+        <td id="file-app-js-LC146" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L147" class="blob-num js-line-number" data-line-number="147"></td>
+        <td id="file-app-js-LC147" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">useSelection</span> <span class="pl-k">=</span> () <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L148" class="blob-num js-line-number" data-line-number="148"></td>
+        <td id="file-app-js-LC148" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> [<span class="pl-c1">selected</span>, <span class="pl-c1">setSelected</span>] <span class="pl-k">=</span> <span class="pl-en">useState</span>([]);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L149" class="blob-num js-line-number" data-line-number="149"></td>
+        <td id="file-app-js-LC149" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> <span class="pl-c1">toggle</span> <span class="pl-k">=</span> (<span class="pl-smi">x</span>) <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L150" class="blob-num js-line-number" data-line-number="150"></td>
+        <td id="file-app-js-LC150" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">setSelected</span>(<span class="pl-smi">selected</span>.<span class="pl-en">includes</span>(x) <span class="pl-k">?</span> <span class="pl-smi">selected</span>.<span class="pl-en">filter</span>(<span class="pl-smi">y</span> <span class="pl-k">=&gt;</span> y <span class="pl-k">!==</span> x) <span class="pl-k">:</span> [x].<span class="pl-c1">concat</span>(selected))</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L151" class="blob-num js-line-number" data-line-number="151"></td>
+        <td id="file-app-js-LC151" class="blob-code blob-code-inner js-file-line">  };</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L152" class="blob-num js-line-number" data-line-number="152"></td>
+        <td id="file-app-js-LC152" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">return</span> [ selected, toggle ];</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L153" class="blob-num js-line-number" data-line-number="153"></td>
+        <td id="file-app-js-LC153" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L154" class="blob-num js-line-number" data-line-number="154"></td>
+        <td id="file-app-js-LC154" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L155" class="blob-num js-line-number" data-line-number="155"></td>
+        <td id="file-app-js-LC155" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">CourseList</span> <span class="pl-k">=</span> ({ courses, user }) <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L156" class="blob-num js-line-number" data-line-number="156"></td>
+        <td id="file-app-js-LC156" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> [<span class="pl-c1">term</span>, <span class="pl-c1">setTerm</span>] <span class="pl-k">=</span> <span class="pl-en">useState</span>(<span class="pl-s"><span class="pl-pds">'</span>Fall<span class="pl-pds">'</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L157" class="blob-num js-line-number" data-line-number="157"></td>
+        <td id="file-app-js-LC157" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> [<span class="pl-c1">selected</span>, <span class="pl-c1">toggle</span>] <span class="pl-k">=</span> <span class="pl-en">useSelection</span>();</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L158" class="blob-num js-line-number" data-line-number="158"></td>
+        <td id="file-app-js-LC158" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> <span class="pl-c1">termCourses</span> <span class="pl-k">=</span> <span class="pl-smi">courses</span>.<span class="pl-en">filter</span>(<span class="pl-smi">course</span> <span class="pl-k">=&gt;</span> term <span class="pl-k">===</span> <span class="pl-en">getCourseTerm</span>(course));</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L159" class="blob-num js-line-number" data-line-number="159"></td>
+        <td id="file-app-js-LC159" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L160" class="blob-num js-line-number" data-line-number="160"></td>
+        <td id="file-app-js-LC160" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">return</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L161" class="blob-num js-line-number" data-line-number="161"></td>
+        <td id="file-app-js-LC161" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span><span class="pl-smi">React</span>.<span class="pl-smi">Fragment</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L162" class="blob-num js-line-number" data-line-number="162"></td>
+        <td id="file-app-js-LC162" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&lt;</span>TermSelector state<span class="pl-k">=</span>{ { term, setTerm } } <span class="pl-k">/</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L163" class="blob-num js-line-number" data-line-number="163"></td>
+        <td id="file-app-js-LC163" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&lt;</span><span class="pl-smi">Button</span>.<span class="pl-smi">Group</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L164" class="blob-num js-line-number" data-line-number="164"></td>
+        <td id="file-app-js-LC164" class="blob-code blob-code-inner js-file-line">        { <span class="pl-smi">termCourses</span>.<span class="pl-en">map</span>(<span class="pl-smi">course</span> <span class="pl-k">=&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L165" class="blob-num js-line-number" data-line-number="165"></td>
+        <td id="file-app-js-LC165" class="blob-code blob-code-inner js-file-line">           <span class="pl-k">&lt;</span>Course key<span class="pl-k">=</span>{ <span class="pl-smi">course</span>.<span class="pl-c1">id</span> } course<span class="pl-k">=</span>{ course }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L166" class="blob-num js-line-number" data-line-number="166"></td>
+        <td id="file-app-js-LC166" class="blob-code blob-code-inner js-file-line">             state<span class="pl-k">=</span>{ { selected, toggle } }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L167" class="blob-num js-line-number" data-line-number="167"></td>
+        <td id="file-app-js-LC167" class="blob-code blob-code-inner js-file-line">             user<span class="pl-k">=</span>{ user } <span class="pl-k">/</span><span class="pl-k">&gt;</span>) }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L168" class="blob-num js-line-number" data-line-number="168"></td>
+        <td id="file-app-js-LC168" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&lt;</span><span class="pl-k">/</span><span class="pl-smi">Button</span>.<span class="pl-smi">Group</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L169" class="blob-num js-line-number" data-line-number="169"></td>
+        <td id="file-app-js-LC169" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span><span class="pl-k">/</span><span class="pl-smi">React</span>.<span class="pl-smi">Fragment</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L170" class="blob-num js-line-number" data-line-number="170"></td>
+        <td id="file-app-js-LC170" class="blob-code blob-code-inner js-file-line">  );</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L171" class="blob-num js-line-number" data-line-number="171"></td>
+        <td id="file-app-js-LC171" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L172" class="blob-num js-line-number" data-line-number="172"></td>
+        <td id="file-app-js-LC172" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L173" class="blob-num js-line-number" data-line-number="173"></td>
+        <td id="file-app-js-LC173" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">addCourseTimes</span> <span class="pl-k">=</span> <span class="pl-smi">course</span> <span class="pl-k">=&gt;</span> ({</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L174" class="blob-num js-line-number" data-line-number="174"></td>
+        <td id="file-app-js-LC174" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">...</span>course,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L175" class="blob-num js-line-number" data-line-number="175"></td>
+        <td id="file-app-js-LC175" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">...</span><span class="pl-en">timeParts</span>(<span class="pl-smi">course</span>.<span class="pl-smi">meets</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L176" class="blob-num js-line-number" data-line-number="176"></td>
+        <td id="file-app-js-LC176" class="blob-code blob-code-inner js-file-line">});</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L177" class="blob-num js-line-number" data-line-number="177"></td>
+        <td id="file-app-js-LC177" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L178" class="blob-num js-line-number" data-line-number="178"></td>
+        <td id="file-app-js-LC178" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">addScheduleTimes</span> <span class="pl-k">=</span> <span class="pl-smi">schedule</span> <span class="pl-k">=&gt;</span> ({</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L179" class="blob-num js-line-number" data-line-number="179"></td>
+        <td id="file-app-js-LC179" class="blob-code blob-code-inner js-file-line">  title<span class="pl-k">:</span> <span class="pl-smi">schedule</span>.<span class="pl-c1">title</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L180" class="blob-num js-line-number" data-line-number="180"></td>
+        <td id="file-app-js-LC180" class="blob-code blob-code-inner js-file-line">  courses<span class="pl-k">:</span> <span class="pl-c1">Object</span>.<span class="pl-c1">values</span>(<span class="pl-smi">schedule</span>.<span class="pl-smi">courses</span>).<span class="pl-en">map</span>(addCourseTimes)</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L181" class="blob-num js-line-number" data-line-number="181"></td>
+        <td id="file-app-js-LC181" class="blob-code blob-code-inner js-file-line">});</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L182" class="blob-num js-line-number" data-line-number="182"></td>
+        <td id="file-app-js-LC182" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L183" class="blob-num js-line-number" data-line-number="183"></td>
+        <td id="file-app-js-LC183" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">App</span> <span class="pl-k">=</span> () <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L184" class="blob-num js-line-number" data-line-number="184"></td>
+        <td id="file-app-js-LC184" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> [<span class="pl-c1">schedule</span>, <span class="pl-c1">setSchedule</span>] <span class="pl-k">=</span> <span class="pl-en">useState</span>({ title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>, courses<span class="pl-k">:</span> [] });</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L185" class="blob-num js-line-number" data-line-number="185"></td>
+        <td id="file-app-js-LC185" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">const</span> [<span class="pl-c1">user</span>, <span class="pl-c1">setUser</span>] <span class="pl-k">=</span> <span class="pl-en">useState</span>(<span class="pl-c1">null</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L186" class="blob-num js-line-number" data-line-number="186"></td>
+        <td id="file-app-js-LC186" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L187" class="blob-num js-line-number" data-line-number="187"></td>
+        <td id="file-app-js-LC187" class="blob-code blob-code-inner js-file-line">  <span class="pl-en">useEffect</span>(() <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L188" class="blob-num js-line-number" data-line-number="188"></td>
+        <td id="file-app-js-LC188" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">const</span> <span class="pl-c1">handleData</span> <span class="pl-k">=</span> <span class="pl-smi">snap</span> <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L189" class="blob-num js-line-number" data-line-number="189"></td>
+        <td id="file-app-js-LC189" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">if</span> (<span class="pl-smi">snap</span>.<span class="pl-en">val</span>()) <span class="pl-en">setSchedule</span>(<span class="pl-en">addScheduleTimes</span>(<span class="pl-smi">snap</span>.<span class="pl-en">val</span>()));</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L190" class="blob-num js-line-number" data-line-number="190"></td>
+        <td id="file-app-js-LC190" class="blob-code blob-code-inner js-file-line">    };</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L191" class="blob-num js-line-number" data-line-number="191"></td>
+        <td id="file-app-js-LC191" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">db</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>value<span class="pl-pds">'</span></span>, handleData, <span class="pl-smi">error</span> <span class="pl-k">=&gt;</span> <span class="pl-en">alert</span>(error));</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L192" class="blob-num js-line-number" data-line-number="192"></td>
+        <td id="file-app-js-LC192" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> () <span class="pl-k">=&gt;</span> { <span class="pl-smi">db</span>.<span class="pl-en">off</span>(<span class="pl-s"><span class="pl-pds">'</span>value<span class="pl-pds">'</span></span>, handleData); };</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L193" class="blob-num js-line-number" data-line-number="193"></td>
+        <td id="file-app-js-LC193" class="blob-code blob-code-inner js-file-line">  }, []);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L194" class="blob-num js-line-number" data-line-number="194"></td>
+        <td id="file-app-js-LC194" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L195" class="blob-num js-line-number" data-line-number="195"></td>
+        <td id="file-app-js-LC195" class="blob-code blob-code-inner js-file-line">  <span class="pl-en">useEffect</span>(() <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L196" class="blob-num js-line-number" data-line-number="196"></td>
+        <td id="file-app-js-LC196" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">firebase</span>.<span class="pl-en">auth</span>().<span class="pl-en">onAuthStateChanged</span>(setUser);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L197" class="blob-num js-line-number" data-line-number="197"></td>
+        <td id="file-app-js-LC197" class="blob-code blob-code-inner js-file-line">  }, []);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L198" class="blob-num js-line-number" data-line-number="198"></td>
+        <td id="file-app-js-LC198" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L199" class="blob-num js-line-number" data-line-number="199"></td>
+        <td id="file-app-js-LC199" class="blob-code blob-code-inner js-file-line"><span class="pl-k">return</span> (</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L200" class="blob-num js-line-number" data-line-number="200"></td>
+        <td id="file-app-js-LC200" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span>Container<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L201" class="blob-num js-line-number" data-line-number="201"></td>
+        <td id="file-app-js-LC201" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&lt;</span>Banner title<span class="pl-k">=</span>{ <span class="pl-smi">schedule</span>.<span class="pl-c1">title</span> } user<span class="pl-k">=</span>{ user } <span class="pl-k">/</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L202" class="blob-num js-line-number" data-line-number="202"></td>
+        <td id="file-app-js-LC202" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">&lt;</span>CourseList courses<span class="pl-k">=</span>{ <span class="pl-smi">schedule</span>.<span class="pl-smi">courses</span> } user<span class="pl-k">=</span>{ user } <span class="pl-k">/</span><span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L203" class="blob-num js-line-number" data-line-number="203"></td>
+        <td id="file-app-js-LC203" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">&lt;</span><span class="pl-k">/</span>Container<span class="pl-k">&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L204" class="blob-num js-line-number" data-line-number="204"></td>
+        <td id="file-app-js-LC204" class="blob-code blob-code-inner js-file-line">  );</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L205" class="blob-num js-line-number" data-line-number="205"></td>
+        <td id="file-app-js-LC205" class="blob-code blob-code-inner js-file-line">};</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L206" class="blob-num js-line-number" data-line-number="206"></td>
+        <td id="file-app-js-LC206" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L207" class="blob-num js-line-number" data-line-number="207"></td>
+        <td id="file-app-js-LC207" class="blob-code blob-code-inner js-file-line"><span class="pl-k">export</span> <span class="pl-c1">default</span> <span class="pl-smi">App</span>;</td>
+      </tr>
+</tbody></table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/criesbeck/ef4e184211eabc535f1a40228f4717cb/raw/3706e5d450f5f2dd7d6a19d9233e1d335df50df1/App.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/criesbeck/ef4e184211eabc535f1a40228f4717cb#file-app-js">App.js</a>
+        hosted with ❤ by <a href="https://github.com/">GitHub</a>
+      </div>
+    </div>
+</div>
+
+
+<h3 id="modules"><a name="modules" href="https://courses.cs.northwestern.edu/394/intro-react.php#modules">Slice 8: Modularization</a></h3>
+
+<p>
+  To keep things simple, we've put all our code in <strong>App.js</strong>.
+  At this point, it's about 200 lines of code. It's overdue for
+  refactoring into independent files. Refactoring dramatically simplifies
+  code editing. There's less to look at when changing a file. There's
+  less chance a team mate will be editing the same file, causing a 
+  merge conflict. There's more code that can be re-used in other projects.
+</p>
+
+<p>
+  Some authors recommending developing components in separate files from
+  the start. For me, this introduces a fair amount of overhead when first
+  developing an app from scratch. I prefer to only refactor when editing
+  a file becomes an issue, just as I only worry about speed when an app
+  becomes too slow.
+</p>
+
+<p>
+  React has few restrictions on how you organize your source code. Typically
+  <strong>index.js</strong> and <strong>App.js</strong> will be at the top level.
+  It's common to put files for component in a <strong>components</strong>
+  subdirectory. Our recommendations below follow those made
+  <a href="https://blog.bitsrc.io/structuring-a-react-project-a-definitive-guide-ac9a754df5eb" target="_blank">here</a>.
+</p>
+
+<p>
+  When refactoring, focus on the big components. In our case, the course list component 
+  is an obvious candidate to pull out is the course list in
+  <strong>App.js</strong>. We're going to go from this directory structure:
+</p>
+
+<img src="./Quick, React!_files/refactor-1.png">
+
+<p>to this:</p>
+
+<img src="./Quick, React!_files/refactor-2.png">
+
+<p>To do so is just a few steps:
+</p>
+
+<ul>
+  <li>Put all the code and imports that <strong>CourseList</strong> needs into 
+    the file <strong>src/components/CourseList.js</strong>. This will 
+    include the <strong>TermSelector</strong> component.
+  </li>
+  <li>Add <tt>export default CourseList;</tt> to the end of 
+    <strong>CourseList.js</strong>.
+  </li>
+  <li>Delete all that course list code from <strong>App.js</strong>. Remove any imports
+    no longer needed in <strong>App.js</strong>.
+  </li>
+  <li>Add <tt>import CourseList from './components/CourseList';</tt> to the 
+    imports at the top of
+    <strong>App.js</strong>.
+  </li>
+</ul>
+
+<p>Save your changes and verify that your code still works. Congratulations! You have done
+  your first refactoring. The new <strong>App.js</strong> is less than
+  60 lines, and the new <strong>CourseList.js</strong> is less than 100
+  lines.
+</p>
+
+<p>The next biggest component to refactor is the course component in
+  <strong>CourseList.js</strong>. We'll change our directory structure
+  to look like this:
+</p>
+
+<img src="./Quick, React!_files/refactor-3.png">
+
+<p>
+  Repeat
+  the above process to create a <strong>src/components/Course.js</strong> file,
+  and import it into the course list component file. Note that
+  the App file will be unaffected.
+</p>
+
+<p>Save and verify that everything still works. Now you should have
+  a course list file and course file, each about 50 lines long.
+</p>
+
+<h4>Component subdirectories</h4>
+
+<p>To illustrate one more common component pattern, we'll move
+  all the functions in <strong>Course.js</strong>
+  that check for date and time conflicts
+  into a separate <strong>times.js</strong> module.
+  Since this code is only needed
+  by the course component, a common approach is to make a component
+  <em>subdirectory</em> rather than a file. Then we can store the time handling code
+  in that subdirectory.
+</p>
+
+<blockquote>You will need to restart your local React server for
+  this kind of change to take effect.
+</blockquote>
+
+<img src="./Quick, React!_files/refactor-4.png">
+  
+<p>
+  To do this:
+</p>
+
+<ul>
+  <li>Create the subdirectory <strong>src/components/Course</strong>.</li>
+  <li>Move <strong>Course.js</strong> into the new subdirectory.</li>
+  <li>Refactor the JavaScript functions for meeting times into a new
+    file <strong>src/components/Course/times.js</strong>.
+    <ul>
+      <li>Add an <strong>export</strong> at the end of <strong>times.js</strong>
+        to export just the functions that <strong>Course</strong> needs.
+      </li>
+    </ul>
+  </li>
+  <li>Create the file <strong>src/components/Course/index.js</strong>, with the line
+    <pre>export { default } from './Course';</pre>
+  </li>
+</ul>
+
+<p>The last step is a shorthand way to import
+  <strong>Course</strong> into <strong>index.js</strong>
+  and then export it.
+  
+</p><p>
+  When the React build tool sees <strong>import ... from 'components/Course'</strong>, 
+  it looks
+  for either <strong>src/components/Course.js</strong> or <strong>src/components/Course/index.js</strong>.
+  When it finds and loads <strong>src/components/Course/index.js</strong>, it
+  gets <strong>Course</strong>. This behavior is one reason why you should not
+  write:
+</p>
+
+<pre class="bad-code">import Course from 'components/Course.js';</pre>
+
+<p>
+  Save and verify that your app still works. Now the course file is less
+  than 20 lines long, and <strong>times.js</strong> is about 40.
+</p>
+
+<blockquote>You'll see applications that put component code directly into the
+  <strong>index.js</strong> file. That works, but means that when you are
+  editing multiple component files, all your tabs will say "index.js". Using
+  files named for the component avoids that problem.
+</blockquote>
+
+<p>Further modularization would depend on your needs. A more actively
+  edited file benefits from refactoring more than a file that's never
+  touched.
+</p>
+
+<h2>Wrap Up</h2>
+
+<p>We've come to the end of this tour of modern React
+  programming. We've seen functional components, styling,
+  handling state, managing persistent data, and authentication. 
+  We've
+  seen modern JavaScript techniques for defining functions, 
+  for destructuring and constructing
+  objects. Both React and JavaScript emphasize small single-task
+  components and functions, and minimal global state. The
+  only global variables we used were for static constants.
+</p>
+
+<p>Notice all the things we didn't need. Unlike a
+  vanilla JavaScript or jQuery application,
+  we didn't write any code to modify the page. We just
+  updated state variables. Unlike previous
+  versions of React, we didn't define any classes, we didn't
+  define any lifecyle methods like 
+  <strong>componentDidMount</strong> or
+  <strong>componentWillUpdate</strong>, and we never once
+  worried about the <strong>this</strong> variable.
+</p>
+
+<p>
+  I've deliberately avoided many useful topics, such as 
+  higher order components, routing, and Redux. I've focused 
+  on the React and JavaScript concepts essential to begin 
+  writing clean manageable dynamic apps.
+</p>
+
+<p>There's much more to learn, but it's time to explore on your
+  own. For starting points, I recommend:
+</p>
+
+<ul>
+  <li>Do the <a href="https://courses.cs.northwestern.edu/394/learn-react.php" target="_blank">Learn React</a>
+    task, to work through a more substantial example,
+    with Firebase data access and updating and authentication. 
+    It's a good way to test your understanding of basic React
+    ideas.
+  </li>
+  <li>Take a look at <a href="https://courses.cs.northwestern.edu/394/react-old-new.php" target="_blank">React Old and New</a>
+    for discussion of how new React differs from old, since many
+    resources online still use the old approach.
+  </li>
+</ul>
+<p>  
+  Happy Reacting!
+</p>
+
+</div>
+
+<script async="" src="./Quick, React!_files/ei.js"></script>
+
+
+</div>  <!-- end main in header.php -->
+<div id="credits">
+  <p><span>© 2019 <a href="http://www.cs.northwestern.edu/~riesbeck/">Chris Riesbeck</a></span><br>
+Template design by <a href="http://andreasviklund.com/">Andreas Viklund</a></p>
+</div>
+</div> <!-- end containerfull in header.php -->
+
+  
+<script>
+    // make headers with ID into bookmarkable anchors
+    Array.from(document.querySelectorAll('h2[id],h3[id],h4[id]')).forEach((elt) => {
+      elt.innerHTML = `<a name="${elt.id}" href="#${elt.id}">${elt.innerHTML}</a>`;
+    });
+
+    // make ToC for h2 and h3
+    const toc = document.querySelector('#toc');
+    const compareElt = (tag, prev) => (
+      !prev || tag > prev ? 1 : tag === prev ? 0 : -1
+    );
+
+    const nextPrefix = comp => {
+      switch (comp) {
+        case 1: return '<ul><li>';
+        case 0: return '</li><li>';
+        case -1: return '</li></ul><li>'
+      }
+    };
+
+    const nextStack = (comp, tag, stack) => {
+      switch (comp) {
+        case 1: return [tag, ...stack];
+        case 0: return stack;
+        case -1: return stack.slice(1);
+      }
+    };
+
+    const nextText = (elt, comp) => (
+      `${nextPrefix(comp)}<a href="#${elt.id}">${elt.innerText}</a>`
+    );
+
+    const makeToc = elts => {
+      const toc = Array.from(elts).reduce((toc, elt) => {
+        const comp = compareElt(elt.tagName, toc.stack[0] );
+        return {
+          stack: nextStack(comp, elt.tagName, toc.stack),
+          text: `${toc.text}${nextText(elt, comp)}`
+        };
+      }, { text: '', stack: [] });
+      return toc.stack.reduce(text => `${text}</li></ul>`, toc.text)
+    };
+    
+    if (toc) {
+      const elts = document.querySelectorAll('h2[id], h3[id]');
+      toc.innerHTML = `<h2>Contents</h2>${makeToc(elts)}`;
+    }
+</script>
+
+</body></html>
